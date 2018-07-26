@@ -65,7 +65,7 @@ module.exports = knex => {
     knex
       .select('id')
       .from('users')
-      .where('username', 't')
+      .where('username', 'Cats')
       .then(result => {
         data.user_id = result[0].id;
 
