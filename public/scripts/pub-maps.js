@@ -1,5 +1,7 @@
 $(() => {
-  var html = `<h2>Public Maps</h2>
+  $.getJSON('/maps').done(maps => {
+    for (let map of maps) {
+      var html = `<h2>Public Maps</h2>
   <div class="mapTitle">TITLE</div>
   <div class="map">MAP</div>
   <div class="map_desc">
@@ -16,4 +18,7 @@ $(() => {
       <li>point 1</li>
     </ul>
   </div>`;
+      $('.mapContainer').append(html);
+    }
+  });
 });
