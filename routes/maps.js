@@ -73,7 +73,6 @@ module.exports = (knex) => {
       .where('username', 'Cats')
       .then((result) => {
         data.user_id = result[0].id;
-
         return insertMap(data);
       })
       .then((result) => {
