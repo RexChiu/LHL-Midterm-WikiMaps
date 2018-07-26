@@ -42,17 +42,31 @@ module.exports = knex => {
     let start_lng = req.body.lng;
     let img_url = 'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg';
 
+    let data = {
+      name: name,
+      url: url,
+      desc: desc,
+      public: visible,
+      rating: rating,
+      type_id: type,
+      start_lat: start_lat,
+      start_lng: start_lng,
+      img_url: img_url
+    };
+
+    //console.log(data);
+
     //find user_id
     knex
       .select('id')
       .from('users')
       .where('username', 't')
-      .then(id => {
-        //insert map once user_id is found
-        knex
+      .then(result => {
+        // insert map once user_id is found
+        knex('maps')
           .insert({
             name: name,
-            user_id: id,
+            user_id: result[0].id,
             url: url,
             desc: desc,
             public: visible,
@@ -62,7 +76,6 @@ module.exports = knex => {
             start_lng: start_lng,
             img_url: img_url
           })
-          .into('maps')
           .then(result => {
             res.send(url);
           })

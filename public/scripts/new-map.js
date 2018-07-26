@@ -17,7 +17,10 @@ $(() => {
       lat,
       lng
     };
-    console.log(data);
+
+    $.post('/maps', data)
+      .done(resp => console.log(resp))
+      .fail(err => console.log(err.message));
     //   .ajax({
     //       method: 'POST',
     //       url: '/maps',
