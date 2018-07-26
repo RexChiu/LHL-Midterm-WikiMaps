@@ -18,10 +18,8 @@ $(() => {
       <li>point 1</li>
       <li>point 1</li>
     </ul>
-    <div>
-    <p></p>
   </div>`;
-      $('.mapContainer').append(html);
+      $('.mapContainer').prepend(html);
     }
   });
 });
