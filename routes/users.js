@@ -4,14 +4,8 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = knex => {
-  router.get('/', (req, res) => {
-    knex
-      .select('*')
-      .from('users')
-      .then(results => {
-        res.json(results);
-      });
-  });
+  //User can see their profile that shows favourite maps, maps contributed to GET /users/:id
+  router.GET('/:id', (req, res) => {});
 
   //End of routes
   return router;
