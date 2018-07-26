@@ -99,9 +99,6 @@ module.exports = knex => {
         res.status(500).send(err);
       });
   });
-<<<<<<< HEAD
-  //function to insert data into map
-=======
 
   function getMapDetails(url) {
     return new Promise((resolve, reject) => {
@@ -119,7 +116,6 @@ module.exports = knex => {
     });
   }
 
->>>>>>> html/map-details
   function insertMap(data) {
     return new Promise((resolve, reject) => {
       // insert map once user_id is found
