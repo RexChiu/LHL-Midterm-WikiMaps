@@ -12,7 +12,16 @@ const API_KEY = process.env.API_KEY;
 module.exports = (knex) => {
   //User can see maps available to them with static images
   //GET /maps
-  router.get('/', (req, res) => {});
+  router.get('/', (req, res) => {
+    returnMaps()
+      .then((results) => {
+        console.log('returning results:', results);
+        res.send(results);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  });
 
   //User can see a page to create a new map
   router.get('/new', (req, res) => {
@@ -74,7 +83,7 @@ module.exports = (knex) => {
         res.status(500).send(err);
       });
   });
-
+  //function to insert data into map
   function insertMap(data) {
     return new Promise((resolve, reject) => {
       // insert map once user_id is found
@@ -88,7 +97,21 @@ module.exports = (knex) => {
         });
     });
   }
-
+  //function to query maps
+  function returnMaps() {
+    return new Promise((resolve, reject) => {
+      knex
+        .select()
+        .from('maps')
+        .where({ public: true })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
   //End of routes
   return router;
 };
