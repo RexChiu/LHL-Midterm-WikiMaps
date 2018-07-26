@@ -5,7 +5,7 @@ const router = express.Router();
 
 module.exports = knex => {
   //User can see many points on a map /GET /maps/:id/points
-  router.GET('/', (req, res) => {});
+  router.get('/', (req, res) => {});
 
   //End of routes
   return router;
