@@ -62,31 +62,31 @@ module.exports = knex => {
       .from('users')
       .where('username', 't')
       .then(result => {
-        // insert map once user_id is found
-        knex('maps')
-          .insert({
-            name: name,
-            user_id: result[0].id,
-            url: url,
-            desc: desc,
-            public: visible,
-            rating: rating,
-            type_id: type,
-            start_lat: start_lat,
-            start_lng: start_lng,
-            img_url: img_url
-          })
-          .then(result => {
-            res.send(url);
-          })
-          .catch(err => {
-            res.status(500).send(err);
-          });
+        data.user_id = result[0].id;
+
+        return insertMap(data);
+      })
+      .then(result => {
+        res.send(url);
       })
       .catch(err => {
         res.status(500).send(err);
       });
   });
+
+  function insertMap(data) {
+    return new Promise((resolve, reject) => {
+      // insert map once user_id is found
+      knex('maps')
+        .insert(data)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 
   //End of routes
   return router;
