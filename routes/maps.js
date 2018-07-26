@@ -31,7 +31,7 @@ module.exports = knex => {
   // POST /maps
   router.post('/', (req, res) => {
     let name = req.body.name;
-    let username = 't'; //temp hardcoded username
+    let username = 'Cats'; //temp hardcoded username
     let url =
       'http://localhost:8080/maps/' +
       randomString({
