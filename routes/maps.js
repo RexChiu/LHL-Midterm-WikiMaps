@@ -9,15 +9,20 @@ const dataHelpers = require('../');
 
 const API_KEY = process.env.API_KEY;
 
-module.exports = knex => {
+module.exports = (knex) => {
   //User can see maps available to them with static images
   //GET /maps
-  router.get('/', (req, res) => {});
+  router.get('/', (req, res) => {
+    let templateVars = {
+      API_KEY: API_KEY,
+    };
+    res.render('index');
+  });
 
   //User can see a page to create a new map
   router.get('/new', (req, res) => {
     let templateVars = {
-      API_KEY: API_KEY
+      API_KEY: API_KEY,
     };
     res.render('new-map', templateVars);
   });
@@ -32,7 +37,7 @@ module.exports = knex => {
       randomString({
         length: 5,
         numeric: true,
-        letters: true
+        letters: true,
       });
     let desc = req.body.desc;
     let visible = req.body.public;
@@ -40,14 +45,15 @@ module.exports = knex => {
     let type = req.body.type;
     let start_lat = req.body.lat;
     let start_lng = req.body.lng;
-    let img_url = 'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg';
+    let img_url =
+      'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg';
 
     //find user_id
     knex
       .select('id')
       .from('users')
       .where('username', 't')
-      .then(id => {
+      .then((id) => {
         //insert map once user_id is found
         knex
           .insert({
@@ -59,17 +65,17 @@ module.exports = knex => {
             rating: rating,
             start_lat: start_lat,
             start_lng: start_lng,
-            img_url: img_url
+            img_url: img_url,
           })
           .into('maps')
-          .then(result => {
+          .then((result) => {
             res.send(url);
           })
-          .catch(err => {
+          .catch((err) => {
             res.status(500).send(err);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send(err);
       });
   });

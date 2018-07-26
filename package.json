@@ -24,6 +24,8 @@
     "random-string": "^0.2.0"
   },
   "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-config-google": "^0.9.1",
     "nodemon": "^1.9.2"
   }
 }
