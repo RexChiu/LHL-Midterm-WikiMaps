@@ -57,6 +57,7 @@ module.exports = knex => {
             desc: desc,
             public: visible,
             rating: rating,
+            type_id: type,
             start_lat: start_lat,
             start_lng: start_lng,
             img_url: img_url
