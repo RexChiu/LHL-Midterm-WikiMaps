@@ -1,12 +1,13 @@
 $(() => {
   $.getJSON('/maps').done(maps => {
     for (let map of maps) {
-      var html = `<h2>Public Maps</h2>
-  <div class="mapTitle">TITLE</div>
-  <div class="map">MAP</div>
+      console.log(map);
+      var html = `
+  <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
+  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image"></div>
   <div class="map_desc">
     <textarea rows="4" cols="50">
-    This is where the map description will go - The map description is 4 rows by 50 columns.
+    ${map.desc}
     </textarea>
   </div>
   <div>points
@@ -17,6 +18,8 @@ $(() => {
       <li>point 1</li>
       <li>point 1</li>
     </ul>
+    <div>
+    <p></p>
   </div>`;
       $('.mapContainer').append(html);
     }
