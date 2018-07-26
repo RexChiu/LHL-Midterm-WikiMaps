@@ -10,6 +10,8 @@ $(() => {
     ${map.desc}
     </textarea>
   </div>
+  <div class="rating">${map.rating}
+  </div>
   <div>points
     <ul>
       <li>point 1</li>
