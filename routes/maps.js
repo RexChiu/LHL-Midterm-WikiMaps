@@ -31,7 +31,7 @@ module.exports = knex => {
   // POST /maps
   router.post('/', (req, res) => {
     let name = req.body.name;
-    let username = 't'; //temp hardcoded username
+    let username = 'Cats'; //temp hardcoded username
     let url =
       'http://localhost:8080/maps/' +
       randomString({
@@ -65,7 +65,7 @@ module.exports = knex => {
     knex
       .select('id')
       .from('users')
-      .where('username', 't')
+      .where('username', username)
       .then(result => {
         data.user_id = result[0].id;
 
@@ -75,6 +75,7 @@ module.exports = knex => {
         res.send(url);
       })
       .catch(err => {
+        console.log(err);
         res.status(500).send(err);
       });
   });
@@ -88,6 +89,7 @@ module.exports = knex => {
           resolve(result);
         })
         .catch(err => {
+          console.log(err);
           reject(err);
         });
     });
