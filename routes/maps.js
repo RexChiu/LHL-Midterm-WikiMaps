@@ -16,7 +16,6 @@ module.exports = knex => {
     let templateVars = {
       API_KEY: API_KEY
     };
-    res.render('index');
   });
 
   //User can see a page to create a new map
