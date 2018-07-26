@@ -1,12 +1,12 @@
-// for future seeding
-
-// // exports.seed = function(knex, Promise) {
-// //   return knex('users').del()
-// //     .then(function () {
-// //       return Promise.all([
-// //         knex('users').insert({id: 1, name: 'Alice'}),
-// //         knex('users').insert({id: 2, name: 'Bob'}),
-// //         knex('users').insert({id: 3, name: 'Charlie'})
-// //       ]);
-// //     });
-// // };
+exports.seed = function(knex, Promise) {
+  // users
+  return knex('users')
+    .del()
+    .then(function() {
+      return Promise.all([
+        knex('users').insert({id: 1, name: 'Alex'}),
+        knex('users').insert({id: 2, name: 'Rex'}),
+        knex('users').insert({id: 3, name: 'John'}),
+      ]);
+    });
+};
