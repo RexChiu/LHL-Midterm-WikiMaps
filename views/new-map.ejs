@@ -5,6 +5,7 @@
   <title>New Map</title>
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <style>
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -26,19 +27,25 @@
 </head>
 
 <body>
-  <form>
+  <form class="mapDetails">
     Name:
-    <input type="text" name="name">
+    <input type="text" name="name" class='name'>
     <br> Type:
-    <select name="types">
+    <select name="types" class='types'>
       <option value="1">Type 1</option>
       <option value="2">Type 2</option>
     </select>
     <br> Description:
-    <input type="text" name="desc">
-    <input type="submit" value="Submit">
+    <input type="text" name="desc" class='desc'>
   </form>
   <div id="map"></div>
+  <button class='createNewMap'>Create</button>
+  <form class="privateCheck">
+    <div>
+      <input type="checkbox" id="isPrivate" name="isPrivate" value="isPrivate">
+      <label for="isPrivate">Make map private?</label>
+    </div>
+  </form>
   <script type="text/javascript" src="/scripts/new-map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" async defer></script>
 </body>
