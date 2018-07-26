@@ -27,6 +27,24 @@ module.exports = knex => {
     res.render('new-map', templateVars);
   });
 
+  //User can see the details of a map using a unique link
+  //GET
+  router.get('/:id', (req, res) => {
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(fullUrl);
+
+    getMapDetails(fullUrl)
+      .then(result => {
+        let templateVars = {
+          map: result
+        };
+        res.render('map-details', templateVars);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
@@ -78,6 +96,22 @@ module.exports = knex => {
         res.status(500).send(err);
       });
   });
+
+  function getMapDetails(url) {
+    return new Promise((resolve, reject) => {
+      // find map by URL
+      knex
+        .select()
+        .from('maps')
+        .where('url', url)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 
   function insertMap(data) {
     return new Promise((resolve, reject) => {
