@@ -5,3 +5,4 @@ public/styles
 *.sqlite3
 *.vscode
 *.eslintrc.js
+package-lock.json
