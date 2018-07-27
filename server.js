@@ -50,8 +50,11 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 // Profile page
-app.get('/user', (req, res) => {
-  res.render('profile');
+app.get('/profile', (req, res) => {
+  let templateVars = {
+    user: 1 //hardcoding user for timebeing.
+  };
+  res.render('profile', templateVars);
 });
 
 app.listen(PORT, () => {

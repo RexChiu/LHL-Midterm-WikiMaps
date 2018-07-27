@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-  <nav>
-    <% include ./partials/nav %>
-  </nav>
+
   <title>Your Profile</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -20,9 +18,12 @@
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/user-maps.js"></script>
 </head>
+<nav>
+  <% include ./partials/nav %>
+</nav>
 
 <body>
-  <h1>Your Maps</h1>
+  <h1>Your Profile</h1>
   <div>
     <form class='mapSearch'>
       <input type='text' name='searchYour' id="searchYour"></input>
