@@ -48,7 +48,7 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
 
 <body>
   <h1>Map Details</h1>
-  <a href="<%= map.url %>">
+  <a href="<%= map.url %>" class="map-url">
     <%= map.name %>
   </a>
   <button type="share">Share</button>
@@ -60,7 +60,7 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
     <input type="radio" name="input-selector" value="by-name"> By Name
     <input type="radio" name="input-selector" value="by-address"> By Address
   </form>
-
+  <button class="send-points-btn" type="send">Send</button>
   <button type="fav">Fav</button>
   <div>
     <%= map.rating %>
