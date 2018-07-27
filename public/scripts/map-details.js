@@ -4,17 +4,19 @@ $(() => {
 
   map.setCenter({ lat: lat, lng: lng });
 
+  //listener for submit button for sending points
   $('.send-points-btn').on('click', ev => {
-    ev.preventDefault(); //prevent default event from occuring  })
+    ev.preventDefault(); //prevent default event from occuring
     ev.stopImmediatePropagation();
 
-    console.log(mapMarkers);
-
     var markers = [];
+
+    //grabs the map url/id
     var mapId = $('.map-url')
       .attr('href')
       .split('/maps/')[1];
 
+    //loops through the mapMarkers and mapAddresess array and constructs a payload
     for (var i = 0; i < mapMarkers.length; i++) {
       var markerObj = {
         mapId: mapId,
@@ -25,15 +27,11 @@ $(() => {
       markers.push(markerObj);
     }
 
-    console.log(markers);
-
     var payload = {
       markers: markers
     };
 
-    console.log('payload' + payload);
-    console.log('mapId ' + mapId);
-
+    //sends points to server
     $.post(`/maps/${mapId}/points`, payload)
       .done(resp => {
         console.log(resp);
@@ -42,8 +40,10 @@ $(() => {
   });
 });
 
+//arrays to store the Google API generated Markers and Addresses
 var mapMarkers = [];
 var mapAddresses = [];
+
 var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -51,11 +51,14 @@ function initMap() {
     zoom: 8
   });
 
+  //add listener for clicks within the map
   map.addListener('click', function(event) {
+    //grab lat/lng
     var latitude = event.latLng.lat();
     var longitude = event.latLng.lng();
     console.log(latitude + ', ' + longitude);
 
+    //add new marker onto map
     var marker = new google.maps.Marker({
       position: {
         lat: latitude,
@@ -65,6 +68,7 @@ function initMap() {
     });
     mapMarkers.push(marker);
 
+    //grab address
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode(
       {

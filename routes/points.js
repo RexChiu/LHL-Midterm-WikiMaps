@@ -13,26 +13,31 @@ module.exports = knex => {
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
-    insertPoints(res, req.body.markers);
-
-    res.send('Cats.');
+    insertPoints(res, req.body.markers)
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+      });
   });
 
   //Data Helper Functions
 
-  function insertPoints(res, points, url) {
-    //grabs the points, and calls insertPoint for every point
-
+  //grabs the points, and calls insertPoint for every point
+  function insertPoints(points, url) {
     for (let elem of points) {
-      insertPoint(res, elem).catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-        return;
+      insertPoint(elem).catch(err => {
+        return err;
       });
     }
+    return Promise.resolve('Successfully Added');
   }
 
-  function insertPoint(res, point) {
+  //insert a point into the database, after grabbing the map_id
+  function insertPoint(point) {
+    //generates unique URL for the point
     let url =
       'http://localhost:8080/points/' +
       randomString({
@@ -41,7 +46,7 @@ module.exports = knex => {
         letters: true
       });
 
-    //get the ID of the mapId
+    //get the ID of the mapId, then construct the point object
     return getMapId(point.mapId).then(mapId => {
       let data = {
         map_id: mapId,
@@ -72,12 +77,10 @@ module.exports = knex => {
 
   function getMapId(url) {
     // find map by URL
-    console.log('url: ' + url);
-
     return knex
       .select('id')
       .from('maps')
-      .where('url', 'ilike', `%${url}%`)
+      .where('url', 'like', `%${url}%`)
       .then(result => {
         return Promise.resolve(result[0].id);
       })
