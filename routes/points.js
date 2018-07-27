@@ -13,14 +13,7 @@ module.exports = knex => {
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
-    let url =
-      'http://localhost:8080/points/' +
-      randomString({
-        length: 5,
-        numeric: true,
-        letters: true
-      });
-    insertPoints(res, req.body.markers, url);
+    insertPoints(res, req.body.markers);
 
     res.send('Cats.');
   });
@@ -39,7 +32,15 @@ module.exports = knex => {
     }
   }
 
-  function insertPoint(res, point, url) {
+  function insertPoint(res, point) {
+    let url =
+      'http://localhost:8080/points/' +
+      randomString({
+        length: 5,
+        numeric: true,
+        letters: true
+      });
+
     //get the ID of the mapId
     return getMapId(point.mapId).then(mapId => {
       let data = {
