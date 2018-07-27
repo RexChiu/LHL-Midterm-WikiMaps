@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 // Profile page
-app.get('/:id', (req, res) => {
+app.get('/user', (req, res) => {
   res.render('profile');
 });
 
