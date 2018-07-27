@@ -19,7 +19,10 @@ $(() => {
     };
 
     $.post('/maps', data)
-      .done(resp => console.log(resp))
+      .done(resp => {
+        console.log(resp);
+        window.location.href = resp;
+      })
       .fail(err => console.log(err.message));
   });
 });

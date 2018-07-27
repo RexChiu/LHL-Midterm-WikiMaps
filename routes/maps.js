@@ -71,7 +71,7 @@ module.exports = knex => {
       type_id: req.body.type,
       start_lat: req.body.lat,
       start_lng: req.body.lng,
-      img_url: 'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg'
+      img_url: `https://maps.googleapis.com/maps/api/staticmap?center=${req.body.lat},${req.body.lng}&zoom=8&size=300x300&maptype=roadmap&key=${API_KEY}`
     };
 
     //console.log(data);
