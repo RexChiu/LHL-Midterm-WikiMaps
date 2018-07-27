@@ -11,4 +11,10 @@ function initMap() {
     center: { lat: 43.653, lng: -79.383 },
     zoom: 8
   });
+
+  map.addListener('click', function(event) {
+    var latitude = event.latLng.lat();
+    var longitude = event.latLng.lng();
+    console.log(latitude + ', ' + longitude);
+  });
 }

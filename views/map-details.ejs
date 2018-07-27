@@ -54,6 +54,13 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
   <button type="share">Share</button>
   <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
 
+  <h3>Points</h3>
+  <form action="">
+    <input type="radio" name="input-selector" value="by-map" checked="checked"> By Map
+    <input type="radio" name="input-selector" value="by-name"> By Name
+    <input type="radio" name="input-selector" value="by-address"> By Address
+  </form>
+
   <button type="fav">Fav</button>
   <div>
     <%= map.rating %>
@@ -61,8 +68,8 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
 
   <textarea><%= map.desc %></textarea>
 
-  <script type="text/javascript" src="/scripts/new-map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" async defer></script>
+  <script type="text/javascript" src="/scripts/map-details.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" defer></script>
 </body>
 
 </html>
