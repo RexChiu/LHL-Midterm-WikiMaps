@@ -2,10 +2,8 @@
 <html lang="en">
 
 <head>
-  <nav>
-    <% include ./partials/nav %>
-  </nav>
-  <title>Home Page</title>
+
+  <title>Your Profile</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -18,18 +16,37 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/pub-maps.js"></script>
+  <script type="text/javascript" src="/scripts/user-maps.js"></script>
 </head>
+<nav>
+  <% include ./partials/nav %>
+</nav>
 
 <body>
-  <h1>Home Page</h1>
+  <h1>Your Profile</h1>
   <div>
     <form class='mapSearch'>
-      <input type='text' name='searchBar' id="searchBar"></input>
-      <label for='searchBar'>Search Public Maps</label>
+      <input type='text' name='searchYour' id="searchYour"></input>
+      <label for='searchYour'>Search Your Maps</label>
     </form>
   </div>
-  <div class='mapContainer'>
+  <div class='yourMapContainer'>
+  </div>
+  <div>
+    <form class='mapSearch'>
+      <input type='text' name='searchFav' id="searchFav"></input>
+      <label for='searchFav'>Search Your Favourite Maps</label>
+    </form>
+  </div>
+  <div class='favMapContainer'>
+  </div>
+  <div>
+    <form class='cntrMapSearch'>
+      <input type='text' name='searchCntr' id="searchCntr"></input>
+      <label for='searchCntr'>Search Maps You've Contributed To</label>
+    </form>
+  </div>
+  <div class='cntrMapContainer'>
   </div>
 </body>
 

@@ -10,10 +10,8 @@ $(() => {
     </textarea>
   </div>
   <div class="rating">${map.rating}
-  
   </div>
   <div>points
-    
   </div>`;
       $('.mapContainer').prepend(html);
     }
