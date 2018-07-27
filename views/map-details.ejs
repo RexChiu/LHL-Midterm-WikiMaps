@@ -5,38 +5,64 @@
   <nav>
     <% include ./partials/nav %>
   </nav>
-  <title>Home Page</title>
-
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
+  <title>Map Details</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/map-details.js"></script>
+
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+    #map {
+      height: 50%;
+      width: 50%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 
+<!-- {
+id: 14,
+name: "Dog",
+url: "http://localhost:8080/maps/38lC3",
+desc: "Dog",
+public: true,
+rating: null,
+type_id: 2,
+start_lat: 53.653,
+start_lng: -79.383,
+user_id: 2,
+img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg"
+}
+-->
+
 <body>
-  <h1>Home Page</h1>
-  <div>Search bar</div>
+  <h1>Map Details</h1>
+  <a href="<%= map.url %>">
+    <%= map.name %>
+  </a>
+  <button type="share">Share</button>
+  <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
+
+  <button type="fav">Fav</button>
   <div>
-    <h2>Public Maps</h2>
-    <div class="mapTitle">TITLE</div>
-    <div class="map">MAP</div>
-    <div class="map_desc">
-      <textarea rows="4" cols="50">
-      This is where the map description will go - The map description is 4 rows by 50 columns.
-      </textarea>
-    </div>
-    <div>points
-      <ul>
-        <li>point 1</li>
-        <li>point 1</li>
-        <li>point 1</li>
-        <li>point 1</li>
-        <li>point 1</li>
-      </ul>
-    </div>
+    <%= map.rating %>
   </div>
+
+  <textarea><%= map.desc %></textarea>
+
+  <script type="text/javascript" src="/scripts/new-map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" async defer></script>
 </body>
 
 </html>
