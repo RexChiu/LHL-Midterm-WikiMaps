@@ -49,6 +49,10 @@ app.use('/users', usersRoutes(knex));
 app.get('/', (req, res) => {
   res.render('index');
 });
+// Profile page
+app.get('/:id', (req, res) => {
+  res.render('profile');
+});
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);

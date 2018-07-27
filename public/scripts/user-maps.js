@@ -1,5 +1,5 @@
 $(() => {
-  $.getJSON('/maps').done(maps => {
+  $.getJSON('/user/:id').done(maps => {
     for (let map of maps) {
       var html = `
   <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
@@ -10,10 +10,12 @@ $(() => {
     </textarea>
   </div>
   <div class="rating">${map.rating}
+  
   </div>
   <div>points
+    
   </div>`;
-      $('.mapContainer').prepend(html);
+      $('.yourMapContainer').prepend(html);
     }
   });
 });
