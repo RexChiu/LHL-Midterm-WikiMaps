@@ -1,8 +1,8 @@
 $(() => {
   //hardcoded to first user for time being
   //will need to get userid = 1 from session cookie?
-  let username = Cats;
-  $.getJSON(`/users/${username}`).done(maps => {
+  let userid = 1;
+  $.getJSON(`/users/${userid}`).done(maps => {
     for (let map of maps) {
       var html = `
   <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
