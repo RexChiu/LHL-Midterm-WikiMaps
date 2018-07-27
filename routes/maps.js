@@ -39,8 +39,10 @@ module.exports = knex => {
 
     getMapDetails(fullUrl)
       .then(result => {
+        console.log(result);
         let templateVars = {
-          map: result
+          API_KEY: API_KEY,
+          map: result[0]
         };
         res.render('map-details', templateVars);
       })
@@ -52,8 +54,6 @@ module.exports = knex => {
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
-    let name = req.body.name;
-    let username = 'Cats'; //temp hardcoded username
     let url =
       'http://localhost:8080/maps/' +
       randomString({
@@ -61,24 +61,17 @@ module.exports = knex => {
         numeric: true,
         letters: true
       });
-    let desc = req.body.desc;
-    let visible = req.body.public;
-    let rating = null;
-    let type = req.body.type;
-    let start_lat = req.body.lat;
-    let start_lng = req.body.lng;
-    let img_url = 'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg';
 
     let data = {
-      name: name,
+      name: req.body.name,
       url: url,
-      desc: desc,
-      public: visible,
-      rating: rating,
-      type_id: type,
-      start_lat: start_lat,
-      start_lng: start_lng,
-      img_url: img_url
+      desc: req.body.desc,
+      public: req.body.public,
+      rating: null,
+      type_id: req.body.type,
+      start_lat: req.body.lat,
+      start_lng: req.body.lng,
+      img_url: 'https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f7808d.jpg'
     };
 
     //console.log(data);
