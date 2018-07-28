@@ -5,6 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
+const cookieSession = require('cookie-session');
 
 module.exports = knex => {
   //User can see their profile that shows favourite maps, maps contributed to
@@ -57,7 +58,7 @@ module.exports = knex => {
 
   // Logout
   router.post('/logout', (req, res) => {
-    console.log('logout route');
+    console.log('logout route\n\n\n\\n\n\n\n\n\n');
     req.session = null;
     res.redirect('../');
   });

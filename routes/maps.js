@@ -51,8 +51,12 @@ module.exports = knex => {
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
+    if (!req.session.username) {
+      res.status(401).send('Login First!');
+      return;
+    }
+
     let username = req.session.username;
-    console.log(username);
 
     let url =
       'http://localhost:8080/maps/' +

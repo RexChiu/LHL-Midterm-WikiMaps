@@ -35,7 +35,7 @@ $(() => {
   // LOGOUT BUTTON EVENT LISTENER
   $('#logout-btn').on('click', ev => {
     ev.preventDefault();
-    $.post('/users/logout', 'logout').then(res => {
+    $.post('/users/logout').then(res => {
       console.log(res);
     });
   });
