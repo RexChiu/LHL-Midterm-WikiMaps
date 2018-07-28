@@ -13,7 +13,7 @@ module.exports = knex => {
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
-    insertPoints(res, req.body.markers)
+    insertPoints(req.body.markers)
       .then(result => {
         res.send(result);
       })
@@ -26,7 +26,8 @@ module.exports = knex => {
   //Data Helper Functions
 
   //grabs the points, and calls insertPoint for every point
-  function insertPoints(points, url) {
+  function insertPoints(points) {
+    console.log(points);
     for (let elem of points) {
       insertPoint(elem).catch(err => {
         return err;
