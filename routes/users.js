@@ -41,9 +41,12 @@ module.exports = knex => {
     const { name, username, email, password, password_confirm } = req.body;
     if (name && username && email && password && password_confirm && password === password_confirm) {
       console.log('validated successfully');
-      registerUser(req.body);
+      registerUser(req.body)
+        .then(result => res.send(req.body))
+        .catch(err => {
+          res.status(500).send(err);
+        });
     }
-    res.send(req.body); //what we do after we insert
   });
 
   // KNEX USER FUNCTIONS
