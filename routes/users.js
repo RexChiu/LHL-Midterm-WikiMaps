@@ -43,7 +43,7 @@ module.exports = knex => {
     };
     //
     console.log(req.body);
-    res.send('<p>register route<p>');
+    res.send('register succesfull');
   });
 
   // KNEX USER FUNCTIONS

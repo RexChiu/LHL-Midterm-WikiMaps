@@ -17,33 +17,53 @@
 </nav>
 <script>
   $(() => {
+    // EVENT LISTENERS TO LAUNCH MODALS
     $("#navlogin").on('click', () => {
       $('#loginModal').modal('show')
     })
     $("#navregister").on('click', () => {
       $('#registerModal').modal('show')
     })
+    // LOGIN FORM BUTTON EVENT LISTENER
     $("#login-form-btn").on('click', (ev) => {
       ev.preventDefault();
       var payload = {
         username: 'Cats',
         password: 'Cats'
       };
-      $.post('/login', payload)
+      $.post('/users/login', payload)
         .then(res => {
           console.log(res)
         })
     })
+    // REGISTER FORM BUTTON EVENT LISTENER
     $("#register-form-btn").on('click', (ev) => {
       ev.preventDefault();
-      var payload = {
-        username: 'Cats',
-        password: 'Cats'
+
+      let username = $('#register-username').val()
+      let password = $('#register-password').val()
+      let password_confirm = $('#register-password_confirm').val()
+
+      const payload = {
+        username,
+        password,
+        password_confirm
       };
-      $.post('/register', payload)
+      $.post('/users/register', payload)
         .then(res => {
           console.log(res)
         })
     })
+    // $("#logout-btn").on('click', (ev) => {
+    //   ev.preventDefault();
+    //   var payload = {
+    //     username: 'Cats',
+    //     password: 'Cats'
+    //   };
+    //   $.post('/users/logout', payload)
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    // })
   })
 </script>
