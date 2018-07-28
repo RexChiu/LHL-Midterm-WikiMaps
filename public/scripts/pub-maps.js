@@ -4,7 +4,6 @@ $(() => {
       var html = ``;
       //grabs the map url/id
       var mapId = map.url.split('/maps/')[1];
-      console.log('Map ID is ' + mapId);
 
       //grab the points
       $.get(`/maps/${mapId}/points`).done((points) => {
