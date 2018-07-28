@@ -19,7 +19,7 @@ $(document).ready(() => {
     .split('/maps/')[1];
 
   //grab the points and add onto the map and HTML page
-  $.get(`/maps/${mapId}/points`).done((points) => {
+  $.get(`/maps/${mapId}/points`).done(points => {
     //loops through the points, creates a marker, and add to stagedMapMarkers
     for (var i = 0; i < points.length; i++) {
       addPointsToMap(map, points[i]);
@@ -28,7 +28,7 @@ $(document).ready(() => {
   });
 
   //listener for button for sending points
-  $('.send-points-btn').on('click', (ev) => {
+  $('.send-points-btn').on('click', ev => {
     ev.preventDefault(); //prevent default event from occuring
     ev.stopImmediatePropagation();
 
@@ -44,20 +44,20 @@ $(document).ready(() => {
         mapId: mapId,
         lat: unstagedMapMarkers[i].getPosition().lat(),
         lng: unstagedMapMarkers[i].getPosition().lng(),
-        addr: unstagedMapAddresses[i],
+        addr: unstagedMapAddresses[i]
       };
       markers.push(markerObj);
     }
 
     var payload = {
-      markers: markers,
+      markers: markers
     };
 
     console.log('Sending Payload: ' + JSON.stringify(payload));
 
     //sends points to server
     $.post(`/maps/${mapId}/points`, payload)
-      .done((resp) => {
+      .done(resp => {
         //successful post to server, clear out unstaged arrays
         stagedMapMarkers = stagedMapMarkers.concat(unstagedMapMarkers);
         unstagedMapMarkers = [];
@@ -65,7 +65,7 @@ $(document).ready(() => {
         console.log(resp);
         console.log('Staged Markers: ' + stagedMapMarkers);
       })
-      .fail((err) => console.log(err.message));
+      .fail(err => console.log(err.message));
   });
 });
 
@@ -74,11 +74,11 @@ function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 },
     zoom: 8,
-    disableDefaultUI: true,
+    disableDefaultUI: true
   });
 
   //add listener for submit button for address bar
-  $('.search-btn').on('click', (ev) => {
+  $('.search-btn').on('click', ev => {
     var byNameAddress = $('.by-name-address-selector:checked').val();
 
     //only runs code if By Name/Address radio is checked
@@ -95,21 +95,14 @@ function initMap() {
           map.setCenter(return_location);
           var marker = new google.maps.Marker({
             map: map,
-            position: return_location,
+            position: return_location
           });
           //adds marker onto the array
           unstagedMapMarkers.push(marker);
           //grabs and adds address onto the unstagedMapAddresses array
-          grabAddress(
-            geocoder,
-            return_location.lat(),
-            return_location.lng(),
-            unstagedMapAddresses
-          );
+          grabAddress(geocoder, return_location.lat(), return_location.lng(), unstagedMapAddresses);
         } else {
-          alert(
-            'Geocode was not successful for the following reason: ' + status
-          );
+          alert('Geocode was not successful for the following reason: ' + status);
         }
       });
     } else {
@@ -132,9 +125,9 @@ function initMap() {
       var marker = new google.maps.Marker({
         position: {
           lat: latitude,
-          lng: longitude,
+          lng: longitude
         },
-        map: map,
+        map: map
       });
       unstagedMapMarkers.push(marker);
 
@@ -152,8 +145,8 @@ function grabAddress(geocoder, lat, lng, addressArr) {
     {
       location: {
         lat: lat,
-        lng: lng,
-      },
+        lng: lng
+      }
     },
     function(results, status) {
       if (status === 'OK') {
@@ -177,9 +170,9 @@ function addPointsToMap(map, point) {
   var marker = new google.maps.Marker({
     position: {
       lat: point.lat,
-      lng: point.lng,
+      lng: point.lng
     },
-    map: map,
+    map: map
   });
   stagedMapMarkers.push(marker);
 }
@@ -188,8 +181,6 @@ function addPointsToMap(map, point) {
 function addPointsToHTML(point) {
   //adds point details onto the page
   var html = `
-  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${
-    point.addr
-  }, URL: ${point.url}</li>`;
+  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }

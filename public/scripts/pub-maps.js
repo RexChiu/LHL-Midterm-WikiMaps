@@ -1,17 +1,15 @@
 $(() => {
-  $.getJSON('/maps').done((maps) => {
+  $.getJSON('/maps').done(maps => {
     for (let map of maps) {
       var html = ``;
       //grabs the map url/id
       var mapId = map.url.split('/maps/')[1];
 
       //grab the points
-      $.get(`/maps/${mapId}/points`).done((points) => {
+      $.get(`/maps/${mapId}/points`).done(points => {
         html = `
   <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
-  <div class="map"><img src="${
-    map.img_url
-  }" alt="Google Map Static Image"></div>
+  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image"></div>
   <div class="map_desc">
     <textarea rows="4" cols="50">
     ${map.desc}

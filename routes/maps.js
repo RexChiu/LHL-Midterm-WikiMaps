@@ -9,16 +9,15 @@ const dataHelpers = require('../');
 
 const API_KEY = process.env.API_KEY;
 
-module.exports = (knex) => {
+module.exports = knex => {
   //User can see maps available to them with static images
   //GET /maps
   router.get('/', (req, res) => {
     returnMaps()
-      .then((results) => {
-        console.log('returning results:', results);
+      .then(results => {
         res.send(results);
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).send(err);
       });
   });
@@ -26,7 +25,7 @@ module.exports = (knex) => {
   //User can see a page to create a new map
   router.get('/new', (req, res) => {
     let templateVars = {
-      API_KEY: API_KEY,
+      API_KEY: API_KEY
     };
     res.render('new-map', templateVars);
   });
@@ -35,18 +34,16 @@ module.exports = (knex) => {
   //GET /maps/:id
   router.get('/:id', (req, res) => {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log(fullUrl);
 
     getMapDetails(fullUrl)
-      .then((result) => {
-        console.log(result);
+      .then(result => {
         let templateVars = {
           API_KEY: API_KEY,
-          map: result[0],
+          map: result[0]
         };
         res.render('map-details', templateVars);
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).send(err);
       });
   });
@@ -59,7 +56,7 @@ module.exports = (knex) => {
       randomString({
         length: 5,
         numeric: true,
-        letters: true,
+        letters: true
       });
 
     let data = {
@@ -71,26 +68,22 @@ module.exports = (knex) => {
       type_id: req.body.type,
       start_lat: req.body.lat,
       start_lng: req.body.lng,
-      img_url: `https://maps.googleapis.com/maps/api/staticmap?center=${
-        req.body.lat
-      },${req.body.lng}&zoom=8&size=300x300&maptype=roadmap&key=${API_KEY}`,
+      img_url: `https://maps.googleapis.com/maps/api/staticmap?center=${req.body.lat},${req.body.lng}&zoom=8&size=300x300&maptype=roadmap&key=${API_KEY}`
     };
-
-    //console.log(data);
 
     //find user_id
     knex
       .select('id')
       .from('users')
       .where('username', 'Cats')
-      .then((result) => {
+      .then(result => {
         data.user_id = result[0].id;
         return insertMap(data);
       })
-      .then((result) => {
+      .then(result => {
         res.send(url);
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).send(err);
       });
   });
@@ -102,10 +95,10 @@ module.exports = (knex) => {
         .select()
         .from('maps')
         .where('url', url)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -116,10 +109,10 @@ module.exports = (knex) => {
       // insert map once user_id is found
       knex('maps')
         .insert(data)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -131,10 +124,10 @@ module.exports = (knex) => {
         .select()
         .from('maps')
         .where({ public: 'true' })
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
