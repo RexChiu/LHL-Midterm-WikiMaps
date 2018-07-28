@@ -4,11 +4,15 @@ $(() => {
 
   map.setCenter({ lat: lat, lng: lng });
 
-  //listener for submit button for sending points
+  //listener for button for sending points
   $('.send-points-btn').on('click', ev => {
     ev.preventDefault(); //prevent default event from occuring
     ev.stopImmediatePropagation();
 
+    //does not proceed further if either of arrays are empty
+    if (mapMarkers.length == 0 || mapAddresses.length == 0) {
+      return;
+    }
     var markers = [];
 
     //grabs the map url/id
@@ -46,15 +50,48 @@ var mapAddresses = [];
 
 var map;
 function initMap() {
+  var geocoder = new google.maps.Geocoder();
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 },
     zoom: 8
   });
 
+  //add listener for submit button for address bar
+  $('.search-btn').on('click', ev => {
+    var byNameAddress = $('.by-name-address-selector:checked').val();
+
+    //only runs code if By Name/Address radio is checked
+    if (byNameAddress) {
+      ev.preventDefault(); //prevent default event from occuring
+      ev.stopImmediatePropagation();
+
+      //grab address of bar
+      var searchAddress = $('.name-address-search-bar').val();
+
+      geocoder.geocode({ address: searchAddress }, function(results, status) {
+        if (status === 'OK') {
+          var return_location = results[0].geometry.location;
+          map.setCenter(return_location);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: return_location
+          });
+          //adds marker onto the array
+          mapMarkers.push(marker);
+          //grabs and adds address onto the mapAddresses array
+          grabAddress(geocoder, return_location.lat(), return_location.lng(), mapAddresses);
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+  });
+
   //add listener for clicks within the map
   map.addListener('click', function(event) {
-    var byMap = $('#by-map-selector:checked').val();
+    var byMap = $('.by-map-selector:checked').val();
 
+    //only runs code if By Map radio is checked
     if (byMap) {
       //grab lat/lng
       var latitude = event.latLng.lat();
@@ -72,23 +109,34 @@ function initMap() {
       mapMarkers.push(marker);
 
       //grab address
-      var geocoder = new google.maps.Geocoder();
-      geocoder.geocode(
-        {
-          location: {
-            lat: latitude,
-            lng: longitude
-          }
-        },
-        function(results, status) {
-          if (status === 'OK') {
-            if (results[0]) {
-              console.log(results[0].formatted_address);
-              mapAddresses.push(results[0].formatted_address);
-            }
-          }
-        }
-      );
+      grabAddress(geocoder, latitude, longitude, mapAddresses);
     }
   });
+}
+
+//grabs the address using google API,
+//pushes it into the address array in function due to async issues
+function grabAddress(geocoder, lat, lng, addressArr) {
+  //grab address using google geocoder API
+  return geocoder.geocode(
+    {
+      location: {
+        lat: lat,
+        lng: lng
+      }
+    },
+    function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log('Found Address: ' + results[0].formatted_address);
+          if (addressArr) {
+            addressArr.push(results[0].formatted_address);
+          }
+          return results[0].formatted_address;
+        }
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    }
+  );
 }
