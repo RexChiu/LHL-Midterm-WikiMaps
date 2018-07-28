@@ -34,7 +34,7 @@
       $.post('/users/login', requestPayload)
         .then(response => {
           console.log('This is the response', response)
-          window.location.href = 'http://localhost:8080/'
+          window.location.href = 'http://localhost:8080/profile'
         })
     })
     // REGISTER FORM BUTTON EVENT LISTENER
@@ -49,7 +49,7 @@
       }
       $.post('/users/register', requestPayload)
         .then(response => {
-          window.location.href = 'http://localhost:8080/'
+          window.location.href = 'http://localhost:8080/profile'
         })
     })
     // LOGOUT BUTTON EVENT LISTENER
