@@ -8,8 +8,6 @@ var stagedMapMarkers = [];
 var map;
 
 $(document).ready(() => {
-  console.log('Document Ready!');
-
   var lat = $('#map').data().lat;
   var lng = $('#map').data().lng;
 
@@ -21,8 +19,8 @@ $(document).ready(() => {
     .split('/maps/')[1];
 
   //grab the points and add onto the map
-  $.get(`/maps/${mapId}/points`).done((result) => {
-    console.log(result);
+  $.get(`/maps/${mapId}/points`).done((points) => {
+    addPoints(map, points);
   });
 
   //listener for button for sending points
@@ -170,4 +168,17 @@ function grabAddress(geocoder, lat, lng, addressArr) {
 }
 
 //function to add the markers onto the map
-function addPoints(map, points) {}
+function addPoints(map, points) {
+  //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
+  for (var i = 0; i < points.length; i++) {
+    //add new marker onto map
+    var marker = new google.maps.Marker({
+      position: {
+        lat: points[i].lat,
+        lng: points[i].lng,
+      },
+      map: map,
+    });
+    stagedMapMarkers.push(marker);
+  }
+}
