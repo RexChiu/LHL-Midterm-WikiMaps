@@ -67,7 +67,24 @@ app.get('/profile', (req, res) => {
   };
   res.render('profile', templateVars);
 });
-
+// app.post('/login', (req, res) => {
+//   let templateVars = {
+//     user: 1 //hardcoding user for timebeing.
+//   };
+//   res.send('<p>login route<p>');
+// });
+// app.post('/logout', (req, res) => {
+//   let templateVars = {
+//     user: 1 //hardcoding user for timebeing.
+//   };
+//   res.send('<p>logout route<p>');
+// });
+// app.post('/register', (req, res) => {
+//   let templateVars = {
+//     user: 1 //hardcoding user for timebeing.
+//   };
+//   res.send('<p>register route<p>');
+// });
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
