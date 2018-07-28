@@ -51,16 +51,15 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
   <a href="<%= map.url %>" class="map-url">
     <%= map.name %>
   </a>
-  <button type="share">Share</button>
+  <button type="share">Save</button>
   <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
 
   <h3>Points</h3>
   <form action="">
-    <input type="radio" name="input-selector" value="by-map" checked="checked"> By Map
-    <input type="radio" name="input-selector" value="by-name"> By Name
-    <input type="radio" name="input-selector" value="by-address"> By Address
+    <input id="by-map-selector" type="radio" name="input-selector" value="by-map" checked="checked"> By Map
+    <input id="by-name-address-selector" type="radio" name="input-selector" value="by-name"> By Name
   </form>
-  <button class="send-points-btn" type="send">Send</button>
+  <button class="send-points-btn" type="send">Save</button>
   <button type="fav">Fav</button>
   <div>
     <%= map.rating %>

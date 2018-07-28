@@ -53,38 +53,42 @@ function initMap() {
 
   //add listener for clicks within the map
   map.addListener('click', function(event) {
-    //grab lat/lng
-    var latitude = event.latLng.lat();
-    var longitude = event.latLng.lng();
-    console.log(latitude + ', ' + longitude);
+    var byMap = $('#by-map-selector:checked').val();
 
-    //add new marker onto map
-    var marker = new google.maps.Marker({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      map: map
-    });
-    mapMarkers.push(marker);
+    if (byMap) {
+      //grab lat/lng
+      var latitude = event.latLng.lat();
+      var longitude = event.latLng.lng();
+      console.log(latitude + ', ' + longitude);
 
-    //grab address
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-      {
-        location: {
+      //add new marker onto map
+      var marker = new google.maps.Marker({
+        position: {
           lat: latitude,
           lng: longitude
-        }
-      },
-      function(results, status) {
-        if (status === 'OK') {
-          if (results[0]) {
-            console.log(results[0].formatted_address);
-            mapAddresses.push(results[0].formatted_address);
+        },
+        map: map
+      });
+      mapMarkers.push(marker);
+
+      //grab address
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          location: {
+            lat: latitude,
+            lng: longitude
+          }
+        },
+        function(results, status) {
+          if (status === 'OK') {
+            if (results[0]) {
+              console.log(results[0].formatted_address);
+              mapAddresses.push(results[0].formatted_address);
+            }
           }
         }
-      }
-    );
+      );
+    }
   });
 }
