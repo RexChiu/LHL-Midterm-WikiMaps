@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || 'development';
 const express = require('express');
 const bodyParser = require('body-parser');
+const CookieSession = require('cookie-session');
 const sass = require('node-sass-middleware');
 const app = express();
 
@@ -29,6 +30,16 @@ app.use(knexLogger(knex));
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+// Use CookieSession to record and return session token
+app.use(
+  CookieSession({
+    name: 'session',
+    keys: ['Rex Loves Cats More Than Dogs'],
+    // Optional:
+    maxAge: 24 * 60 * 60 * 1000 // 1 Day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  })
+);
+
 app.use(
   '/styles',
   sass({

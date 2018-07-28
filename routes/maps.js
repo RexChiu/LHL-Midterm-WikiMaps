@@ -128,7 +128,7 @@ module.exports = knex => {
       knex
         .select()
         .from('maps')
-        .where({ public: true })
+        .where({ public: 'true' })
         .then(result => {
           resolve(result);
         })
