@@ -33,22 +33,19 @@
       };
       $.post('/users/login', payload)
         .then(res => {
-          console.log(res)
+          console.log('This is the response', res)
         })
     })
     // REGISTER FORM BUTTON EVENT LISTENER
     $("#register-form-btn").on('click', (ev) => {
       ev.preventDefault();
-
-      let username = $('#register-username').val()
-      let password = $('#register-password').val()
-      let password_confirm = $('#register-password_confirm').val()
-
-      const payload = {
-        username,
-        password,
-        password_confirm
-      };
+      let payload = {
+        name: $('#register-name').val(),
+        username: $('#register-username').val(),
+        email: $('#register-email').val(),
+        password: $('#register-password').val(),
+        password_confirm: $('#register-password_confirm').val()
+      }
       $.post('/users/register', payload)
         .then(res => {
           console.log(res)

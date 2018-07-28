@@ -38,21 +38,37 @@ module.exports = knex => {
   });
   // Register
   router.post('/register', (req, res) => {
-    let templateVars = {
-      user: 1 //hardcoding user for timebeing.
-    };
-    //
-    console.log(req.body);
-    res.send('register succesfull');
+    const { name, username, email, password, password_confirm } = req.body;
+    if (name && username && email && password && password_confirm && password === password_confirm) {
+      console.log('validated successfully');
+      registerUser(req.body);
+    }
+    res.send(req.body); //what we do after we insert
   });
 
   // KNEX USER FUNCTIONS
+  // return user maps
   function returnUserMaps(id) {
     return new Promise((resolve, reject) => {
       knex
         .select()
         .from('maps')
         .where('user_id', id)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+  // register user
+  function registerUser(reqBody) {
+    return new Promise((resolve, reject) => {
+      delete reqBody.password_confirm; //javascript function to remove key value pair (password confirm:) from object
+      console.log('THIS IS WHAT WE ARE INSERTING:', reqBody);
+      knex('users')
+        .insert(reqBody)
         .then(result => {
           resolve(result);
         })
