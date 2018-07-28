@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || 'development';
 const express = require('express');
 const bodyParser = require('body-parser');
-const CookieSession = require('cookie-session');
+const cookieSession = require('cookie-session');
 const sass = require('node-sass-middleware');
 const app = express();
 
@@ -30,23 +30,24 @@ app.use(knexLogger(knex));
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Use CookieSession to record and return session token
 app.use(
-  CookieSession({
+  cookieSession({
     name: 'session',
-    keys: ['Rex Loves Cats More Than Dogs'],
+    keys: ['Rex loves cats more than dogs'],
     // Optional:
     maxAge: 24 * 60 * 60 * 1000 // 1 Day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
   })
 );
-
+// SASS MIDDLEWARE
 app.use(
   '/styles',
   sass({
     src: __dirname + '/styles',
     dest: __dirname + '/public/styles',
     debug: true,
-    outputStyle: 'expanded',
+    outputStyle: 'expanded'
   })
 );
 app.use(express.static('public'));
@@ -63,7 +64,7 @@ app.get('/', (req, res) => {
 // Profile page
 app.get('/profile', (req, res) => {
   let templateVars = {
-    user: 1, //hardcoding user for timebeing.
+    user: 1 //hardcoding user for timebeing.
   };
   res.render('profile', templateVars);
 });

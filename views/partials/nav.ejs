@@ -27,40 +27,38 @@
     // LOGIN FORM BUTTON EVENT LISTENER
     $("#login-form-btn").on('click', (ev) => {
       ev.preventDefault();
-      var payload = {
-        username: 'Cats',
-        password: 'Cats'
+      let requestPayload = {
+        username: $('#login-username').val(),
+        password: $('#login-password').val()
       };
-      $.post('/users/login', payload)
-        .then(res => {
-          console.log('This is the response', res)
+      $.post('/users/login', requestPayload)
+        .then(response => {
+          console.log('This is the response', response)
+          window.location.href = 'http://localhost:8080/'
         })
     })
     // REGISTER FORM BUTTON EVENT LISTENER
     $("#register-form-btn").on('click', (ev) => {
       ev.preventDefault();
-      let payload = {
+      let requestPayload = {
         name: $('#register-name').val(),
         username: $('#register-username').val(),
         email: $('#register-email').val(),
         password: $('#register-password').val(),
         password_confirm: $('#register-password_confirm').val()
       }
-      $.post('/users/register', payload)
+      $.post('/users/register', requestPayload)
+        .then(response => {
+          window.location.href = 'http://localhost:8080/'
+        })
+    })
+    // LOGOUT BUTTON EVENT LISTENER
+    $("#logout-btn").on('click', (ev) => {
+      ev.preventDefault();
+      $.post('/users/logout', "logout")
         .then(res => {
           console.log(res)
         })
     })
-    // $("#logout-btn").on('click', (ev) => {
-    //   ev.preventDefault();
-    //   var payload = {
-    //     username: 'Cats',
-    //     password: 'Cats'
-    //   };
-    //   $.post('/users/logout', payload)
-    //     .then(res => {
-    //       console.log(res)
-    //     })
-    // })
   })
 </script>

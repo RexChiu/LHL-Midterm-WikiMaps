@@ -20,33 +20,46 @@ module.exports = knex => {
         res.status(500).send(err);
       });
   });
-  //  Login
-  router.post('/login', (req, res) => {
-    let templateVars = {
-      user: 1 //hardcoding user for timebeing.
-    };
-    console.log('login route');
-    res.send('<p>login route</p>');
-  });
-  // Logout
-  router.post('/logout', (req, res) => {
-    let templateVars = {
-      user: 1 //hardcoding user for timebeing.
-    };
-    console.log('logout route');
-    res.send('<p>logout route<p>');
-  });
   // Register
   router.post('/register', (req, res) => {
     const { name, username, email, password, password_confirm } = req.body;
     if (name && username && email && password && password_confirm && password === password_confirm) {
       console.log('validated successfully');
-      registerUser(req.body)
-        .then(result => res.send(req.body))
+      registerUser(req.body) //call registerUser function passing in the req.body
+        .then(result => {
+          req.session.username = username;
+          res.send('success');
+        })
         .catch(err => {
-          res.status(500).send(err);
+          res.status(401).send(err);
         });
     }
+  });
+
+  //  Login
+  router.post('/login', (req, res) => {
+    console.log(req.body); //logs
+    if (req.body.username && req.body.password) {
+      console.log('running checkUser'); //log
+      checkUser(req.body)
+        .then(result => {
+          console.log('login success'); //log
+          req.session.username = req.body.username;
+          res.send('success');
+        })
+        .catch(err => {
+          res.status(401).send(err);
+        });
+    } else {
+      res.send('must fill out all fields');
+    }
+  });
+
+  // Logout
+  router.post('/logout', (req, res) => {
+    console.log('logout route');
+    req.session = null;
+    res.redirect('../');
   });
 
   // KNEX USER FUNCTIONS
@@ -80,6 +93,37 @@ module.exports = knex => {
         });
     });
   }
+  // check user auth details
+  function checkUser(reqBody) {
+    return new Promise((resolve, reject) => {
+      knex('users')
+        .select('username')
+        .where('username', reqBody.username)
+        .andWhere('password', reqBody.password)
+        .then(results => {
+          if (results.length > 0) {
+            console.log('found username');
+            resolve('username AND password matches a user in db');
+          } else {
+            reject('username AND/OR password does not match a user in db');
+          }
+        });
+    });
+  }
+  // function checkUserPass(reqBody) {
+  //   return new Promise((resolve, reject) => {
+  //     knex('users')
+  //       .select('username')
+  //       .where('password', reqBody.password)
+  //       .then(results => {
+  //         if (result.length > 0) {
+  //           resolve('username AND password matches a user in db');
+  //         } else {
+  //           reject('username AND/OR password does not match a user in db');
+  //         }
+  //       });
+  //   });
+  // }
   //End of routes
   return router;
 };
