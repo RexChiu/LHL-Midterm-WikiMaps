@@ -5,19 +5,28 @@ const express = require('express');
 const router = express.Router();
 const randomString = require('random-string');
 
-module.exports = knex => {
+module.exports = (knex) => {
   //User can see many points on a map
   //GET /maps/:id/points
-  router.get('/', (req, res) => {});
+  router.get('/', (req, res) => {
+    //get mapId by cutting away /maps/ and /points
+    let mapId = req.originalUrl.split('/maps/')[1].split('/points')[0];
+
+    getMapId(mapId).then((map_id) => {
+      getPoints(map_id).then((result) => {
+        res.send(result);
+      });
+    });
+  });
 
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
     insertPoints(req.body.markers)
-      .then(result => {
+      .then((result) => {
         res.send(result);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         res.status(500).send(err);
       });
@@ -25,11 +34,24 @@ module.exports = knex => {
 
   //Data Helper Functions
 
+  //gets the points that belong to the mapId
+  function getPoints(mapId) {
+    return knex('points')
+      .select('title', 'desc', 'img_url', 'rating', 'lat', 'lng', 'addr', 'url')
+      .where('map_id', mapId)
+      .then((result) => {
+        return Promise.resolve(result);
+      })
+      .catch((err) => {
+        return Promise.reject(err);
+      });
+  }
+
   //grabs the points, and calls insertPoint for every point
   function insertPoints(points) {
     console.log(points);
     for (let elem of points) {
-      insertPoint(elem).catch(err => {
+      insertPoint(elem).catch((err) => {
         return err;
       });
     }
@@ -44,11 +66,11 @@ module.exports = knex => {
       randomString({
         length: 5,
         numeric: true,
-        letters: true
+        letters: true,
       });
 
     //get the ID of the mapId, then construct the point object
-    return getMapId(point.mapId).then(mapId => {
+    return getMapId(point.mapId).then((mapId) => {
       let data = {
         map_id: mapId,
         title: null,
@@ -58,17 +80,17 @@ module.exports = knex => {
         lat: point.lat,
         lng: point.lng,
         addr: point.addr,
-        url: url
+        url: url,
       };
 
       // insert map once user_id is found
       knex('points')
         .insert(data)
-        .then(result => {
+        .then((result) => {
           console.log(result);
           return Promise.resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           return Promise.reject(err);
         });
 
@@ -82,10 +104,10 @@ module.exports = knex => {
       .select('id')
       .from('maps')
       .where('url', 'like', `%${url}%`)
-      .then(result => {
+      .then((result) => {
         return Promise.resolve(result[0].id);
       })
-      .catch(err => {
+      .catch((err) => {
         return Promise.reject(err);
       });
   }

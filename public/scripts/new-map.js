@@ -1,5 +1,5 @@
 $(() => {
-  $('.createNewMap').on('click', ev => {
+  $('.createNewMap').on('click', (ev) => {
     ev.preventDefault(); //prevent default event from occuring  })
     let $form = $('.mapDetails');
     //let $private = $('.privateCheck');
@@ -15,15 +15,15 @@ $(() => {
       desc,
       public,
       lat,
-      lng
+      lng,
     };
 
     $.post('/maps', data)
-      .done(resp => {
+      .done((resp) => {
         console.log(resp);
         window.location.href = resp;
       })
-      .fail(err => console.log(err.message));
+      .fail((err) => console.log(err.message));
   });
 });
 
@@ -31,6 +31,7 @@ var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 }, //hard coded center toronto
-    zoom: 8
+    zoom: 8,
+    disableDefaultUI: true,
   });
 }
