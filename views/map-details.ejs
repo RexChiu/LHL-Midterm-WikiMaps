@@ -10,12 +10,19 @@
   <!-- BOOTSTRAP CDN 4.1.3 CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
+  <!-- Local CSS from layout.scss -->
   <link rel="stylesheet" href="/styles/gmapsapi.css" type="text/css" />
 </head>
 
-<nav>
+<div>
+  <% include ./partials/login %>
+</div>
+<div>
+  <% include ./partials/register %>
+</div>
+<div>
   <% include ./partials/nav %>
-</nav>
+</div>
 
 <body>
 
