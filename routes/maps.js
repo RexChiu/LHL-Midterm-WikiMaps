@@ -51,6 +51,9 @@ module.exports = knex => {
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
+    let username = req.session.username;
+    console.log(username);
+
     let url =
       'http://localhost:8080/maps/' +
       randomString({
@@ -75,7 +78,7 @@ module.exports = knex => {
     knex
       .select('id')
       .from('users')
-      .where('username', 'Cats')
+      .where('username', username)
       .then(result => {
         data.user_id = result[0].id;
         return insertMap(data);
