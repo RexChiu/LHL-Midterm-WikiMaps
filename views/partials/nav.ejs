@@ -34,6 +34,16 @@
           console.log(res)
         })
     })
-
+    $("#register-form-btn").on('click', (ev) => {
+      ev.preventDefault();
+      var payload = {
+        username: 'Cats',
+        password: 'Cats'
+      };
+      $.post('/register', payload)
+        .then(res => {
+          console.log(res)
+        })
+    })
   })
 </script>

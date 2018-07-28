@@ -52,7 +52,7 @@ app.use(
 app.use(express.static('public'));
 
 // Mount all resource routes
-app.use('/maps/*/points', mapPointsRoutes(knex));
+app.use('/maps/:id/points', mapPointsRoutes(knex));
 app.use('/maps', mapsRoutes(knex));
 app.use('/users', usersRoutes(knex));
 
@@ -67,6 +67,7 @@ app.get('/profile', (req, res) => {
   };
   res.render('profile', templateVars);
 });
+//  Login
 app.post('/login', (req, res) => {
   let templateVars = {
     user: 1 //hardcoding user for timebeing.
@@ -74,18 +75,22 @@ app.post('/login', (req, res) => {
   console.log('login route');
   res.send('<p>login route</p>');
 });
-// app.post('/logout', (req, res) => {
-//   let templateVars = {
-//     user: 1 //hardcoding user for timebeing.
-//   };
-//   res.send('<p>logout route<p>');
-// });
-// app.post('/register', (req, res) => {
-//   let templateVars = {
-//     user: 1 //hardcoding user for timebeing.
-//   };
-//   res.send('<p>register route<p>');
-// });
+// Logout
+app.post('/logout', (req, res) => {
+  let templateVars = {
+    user: 1 //hardcoding user for timebeing.
+  };
+  console.log('register route');
+  res.send('<p>logout route<p>');
+});
+// Register
+app.post('/register', (req, res) => {
+  let templateVars = {
+    user: 1 //hardcoding user for timebeing.
+  };
+  console.log('register route');
+  res.send('<p>register route<p>');
+});
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
