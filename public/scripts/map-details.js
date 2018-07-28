@@ -18,9 +18,13 @@ $(document).ready(() => {
     .attr('href')
     .split('/maps/')[1];
 
-  //grab the points and add onto the map
+  //grab the points and add onto the map and HTML page
   $.get(`/maps/${mapId}/points`).done((points) => {
-    addPoints(map, points);
+    //loops through the points, creates a marker, and add to stagedMapMarkers
+    for (var i = 0; i < points.length; i++) {
+      addPointsToMap(map, points[i]);
+      addPointsToHTML(points[i]);
+    }
   });
 
   //listener for button for sending points
@@ -168,17 +172,24 @@ function grabAddress(geocoder, lat, lng, addressArr) {
 }
 
 //function to add the markers onto the map
-function addPoints(map, points) {
-  //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
-  for (var i = 0; i < points.length; i++) {
-    //add new marker onto map
-    var marker = new google.maps.Marker({
-      position: {
-        lat: points[i].lat,
-        lng: points[i].lng,
-      },
-      map: map,
-    });
-    stagedMapMarkers.push(marker);
-  }
+function addPointsToMap(map, point) {
+  //add new marker onto map
+  var marker = new google.maps.Marker({
+    position: {
+      lat: point.lat,
+      lng: point.lng,
+    },
+    map: map,
+  });
+  stagedMapMarkers.push(marker);
+}
+
+//function to add the points onto the HTML page
+function addPointsToHTML(point) {
+  //adds point details onto the page
+  var html = `
+  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${
+    point.addr
+  }, URL: ${point.url}</li>`;
+  $('.points-container').append(html);
 }
