@@ -184,3 +184,4 @@ function addPointsToHTML(point) {
   <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }
+//function ro remove points from the map
