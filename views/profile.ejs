@@ -18,36 +18,41 @@
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/user-maps.js"></script>
 </head>
-<nav>
-  <% include ./partials/nav %>
-</nav>
+
 
 <body>
-  <h1>Your Profile</h1>
-  <div>
-    <form class='mapSearch'>
-      <input type='text' name='searchYour' id="searchYour"></input>
-      <label for='searchYour'>Search Your Maps</label>
-    </form>
-  </div>
-  <div class='yourMapContainer'>
-  </div>
-  <div>
-    <form class='mapSearch'>
-      <input type='text' name='searchFav' id="searchFav"></input>
-      <label for='searchFav'>Search Your Favourite Maps</label>
-    </form>
-  </div>
-  <div class='favMapContainer'>
-  </div>
-  <div>
-    <form class='cntrMapSearch'>
-      <input type='text' name='searchCntr' id="searchCntr"></input>
-      <label for='searchCntr'>Search Maps You've Contributed To</label>
-    </form>
-  </div>
-  <div class='cntrMapContainer'>
-  </div>
+  <header>
+    <nav>
+      <% include ./partials/nav %>
+    </nav>
+  </header>
+  <main>
+    <h1>Your Profile</h1>
+    <div>
+      <form class='mapSearch'>
+        <input type='text' name='searchYour' id="searchYour"></input>
+        <label for='searchYour'>Search Your Maps</label>
+      </form>
+    </div>
+    <div class='yourMapContainer'>
+    </div>
+    <div>
+      <form class='mapSearch'>
+        <input type='text' name='searchFav' id="searchFav"></input>
+        <label for='searchFav'>Search Your Favourite Maps</label>
+      </form>
+    </div>
+    <div class='favMapContainer'>
+    </div>
+    <div>
+      <form class='cntrMapSearch'>
+        <input type='text' name='searchCntr' id="searchCntr"></input>
+        <label for='searchCntr'>Search Maps You've Contributed To</label>
+      </form>
+    </div>
+    <div class='cntrMapContainer'>
+    </div>
+  </main>
 </body>
 
 </html>

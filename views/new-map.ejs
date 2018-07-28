@@ -2,9 +2,6 @@
 <html>
 
 <head>
-  <nav>
-    <% include ./partials/nav %>
-  </nav>
   <title>New Map</title>
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
@@ -30,27 +27,34 @@
 </head>
 
 <body>
-  <form class="mapDetails">
-    Name:
-    <input type="text" name="name" class='name'>
-    <br> Type:
-    <select name="types" class='types'>
-      <option value="1">Type 1</option>
-      <option value="2">Type 2</option>
-    </select>
-    <br> Description:
-    <input type="text" name="desc" class='desc'>
-  </form>
-  <div id="map"></div>
-  <button class='createNewMap'>Create</button>
-  <form class="privateCheck">
-    <div>
-      <input type="checkbox" class="isPrivate" name="isPrivate" value="isPrivate">
-      <label for="isPrivate">Make map private?</label>
-    </div>
-  </form>
-  <script type="text/javascript" src="/scripts/new-map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" async defer></script>
+  <header>
+    <nav>
+      <% include ./partials/nav %>
+    </nav>
+  </header>
+  <main>
+    <form class="mapDetails">
+      Name:
+      <input type="text" name="name" class='name'>
+      <br> Type:
+      <select name="types" class='types'>
+        <option value="1">Type 1</option>
+        <option value="2">Type 2</option>
+      </select>
+      <br> Description:
+      <input type="text" name="desc" class='desc'>
+    </form>
+    <div id="map"></div>
+    <button class='createNewMap'>Create</button>
+    <form class="privateCheck">
+      <div>
+        <input type="checkbox" class="isPrivate" name="isPrivate" value="isPrivate">
+        <label for="isPrivate">Make map private?</label>
+      </div>
+    </form>
+    <script type="text/javascript" src="/scripts/new-map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" async defer></script>
+  </main>
 </body>
 
 </html>
