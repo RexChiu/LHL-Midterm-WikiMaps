@@ -35,13 +35,13 @@ app.use(
     src: __dirname + '/styles',
     dest: __dirname + '/public/styles',
     debug: true,
-    outputStyle: 'expanded'
+    outputStyle: 'expanded',
   })
 );
 app.use(express.static('public'));
 
 // Mount all resource routes
-app.use('/maps/*/points', mapPointsRoutes(knex));
+app.use('/maps/:id/points', mapPointsRoutes(knex));
 app.use('/maps', mapsRoutes(knex));
 app.use('/users', usersRoutes(knex));
 
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
 // Profile page
 app.get('/profile', (req, res) => {
   let templateVars = {
-    user: 1 //hardcoding user for timebeing.
+    user: 1, //hardcoding user for timebeing.
   };
   res.render('profile', templateVars);
 });

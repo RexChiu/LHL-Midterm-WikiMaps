@@ -9,7 +9,6 @@
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/map-details.js"></script>
 
   <style>
     /* Always set the map height explicitly to define the size of the div
@@ -53,26 +52,25 @@ img_url: "https://i.pinimg.com/originals/78/5c/39/785c39aa38a5867388fe432079f780
   </a>
   <button type="share">Save</button>
   <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
+  < <h3>Points</h3>
+    <form>
+      <input class="by-map-selector" type="radio" name="input-selector" value="by-map" checked="checked"> By Map
+      <input class="by-name-address-selector" type="radio" name="input-selector" value="by-name"> By Name
+    </form>
+    <form>
+      <input class="name-address-search-bar" type='text' name='name-address-search-bar'></input>
+      <button class="search-btn" type="button">Search</button>
+    </form>
+    <button class="send-points-btn" type="button">Save</button>
+    <button type="button">Fav</button>
+    <div>
+      <%= map.rating %>
+    </div>
 
-  <h3>Points</h3>
-  <form>
-    <input class="by-map-selector" type="radio" name="input-selector" value="by-map" checked="checked"> By Map
-    <input class="by-name-address-selector" type="radio" name="input-selector" value="by-name"> By Name
-  </form>
-  <form>
-    <input class="name-address-search-bar" type='text' name='name-address-search-bar'></input>
-    <button class="search-btn" type="button">Search</button>
-  </form>
-  <button class="send-points-btn" type="button">Save</button>
-  <button type="button">Fav</button>
-  <div>
-    <%= map.rating %>
-  </div>
+    <textarea><%= map.desc %></textarea>
 
-  <textarea><%= map.desc %></textarea>
-
-  <script type="text/javascript" src="/scripts/map-details.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" defer></script>
+    <script type="text/javascript" src="/scripts/map-details.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" defer></script>
 </body>
 
 </html>

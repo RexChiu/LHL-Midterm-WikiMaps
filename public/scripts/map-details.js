@@ -1,56 +1,3 @@
-$(() => {
-  var lat = $('#map').data().lat;
-  var lng = $('#map').data().lng;
-
-  map.setCenter({ lat: lat, lng: lng });
-
-  //listener for button for sending points
-  $('.send-points-btn').on('click', ev => {
-    ev.preventDefault(); //prevent default event from occuring
-    ev.stopImmediatePropagation();
-
-    //does not proceed further if either of arrays are empty
-    if (unstagedMapMarkers.length == 0 || unstagedMapAddresses.length == 0) {
-      return;
-    }
-    var markers = [];
-
-    //grabs the map url/id
-    var mapId = $('.map-url')
-      .attr('href')
-      .split('/maps/')[1];
-
-    //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
-    for (var i = 0; i < unstagedMapMarkers.length; i++) {
-      var markerObj = {
-        mapId: mapId,
-        lat: unstagedMapMarkers[i].getPosition().lat(),
-        lng: unstagedMapMarkers[i].getPosition().lng(),
-        addr: unstagedMapAddresses[i]
-      };
-      markers.push(markerObj);
-    }
-
-    var payload = {
-      markers: markers
-    };
-
-    console.log('Sending Payload: ' + JSON.stringify(payload));
-
-    //sends points to server
-    $.post(`/maps/${mapId}/points`, payload)
-      .done(resp => {
-        //successful post to server, clear out unstaged arrays
-        stagedMapMarkers = stagedMapMarkers.concat(unstagedMapMarkers);
-        unstagedMapMarkers = [];
-        unstagedMapAddresses = [];
-        console.log(resp);
-        console.log('Staged Markers: ' + stagedMapMarkers);
-      })
-      .fail(err => console.log(err.message));
-  });
-});
-
 //arrays to store the Google API generated Markers and Addresses
 var unstagedMapMarkers = [];
 var unstagedMapAddresses = [];
@@ -60,15 +7,76 @@ var stagedMapMarkers = [];
 
 var map;
 
+$(document).ready(() => {
+  console.log('Document Ready!');
+
+  var lat = $('#map').data().lat;
+  var lng = $('#map').data().lng;
+
+  map.setCenter({ lat: lat, lng: lng });
+
+  //grabs the map url/id
+  var mapId = $('.map-url')
+    .attr('href')
+    .split('/maps/')[1];
+
+  //grab the points and add onto the map
+  $.get(`/maps/${mapId}/points`).done((result) => {
+    console.log(result);
+  });
+
+  //listener for button for sending points
+  $('.send-points-btn').on('click', (ev) => {
+    ev.preventDefault(); //prevent default event from occuring
+    ev.stopImmediatePropagation();
+
+    //does not proceed further if either of arrays are empty
+    if (unstagedMapMarkers.length == 0 || unstagedMapAddresses.length == 0) {
+      return;
+    }
+    var markers = [];
+
+    //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
+    for (var i = 0; i < unstagedMapMarkers.length; i++) {
+      var markerObj = {
+        mapId: mapId,
+        lat: unstagedMapMarkers[i].getPosition().lat(),
+        lng: unstagedMapMarkers[i].getPosition().lng(),
+        addr: unstagedMapAddresses[i],
+      };
+      markers.push(markerObj);
+    }
+
+    var payload = {
+      markers: markers,
+    };
+
+    console.log('Sending Payload: ' + JSON.stringify(payload));
+
+    //sends points to server
+    $.post(`/maps/${mapId}/points`, payload)
+      .done((resp) => {
+        //successful post to server, clear out unstaged arrays
+        stagedMapMarkers = stagedMapMarkers.concat(unstagedMapMarkers);
+        unstagedMapMarkers = [];
+        unstagedMapAddresses = [];
+        console.log(resp);
+        console.log('Staged Markers: ' + stagedMapMarkers);
+      })
+      .fail((err) => console.log(err.message));
+  });
+});
+
 function initMap() {
   var geocoder = new google.maps.Geocoder();
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 },
-    zoom: 8
+    zoom: 8,
+    disableDefaultUI: true,
   });
 
   //add listener for submit button for address bar
-  $('.search-btn').on('click', ev => {
+  $('.search-btn').on('click', (ev) => {
     var byNameAddress = $('.by-name-address-selector:checked').val();
 
     //only runs code if By Name/Address radio is checked
@@ -85,14 +93,21 @@ function initMap() {
           map.setCenter(return_location);
           var marker = new google.maps.Marker({
             map: map,
-            position: return_location
+            position: return_location,
           });
           //adds marker onto the array
           unstagedMapMarkers.push(marker);
           //grabs and adds address onto the unstagedMapAddresses array
-          grabAddress(geocoder, return_location.lat(), return_location.lng(), unstagedMapAddresses);
+          grabAddress(
+            geocoder,
+            return_location.lat(),
+            return_location.lng(),
+            unstagedMapAddresses
+          );
         } else {
-          alert('Geocode was not successful for the following reason: ' + status);
+          alert(
+            'Geocode was not successful for the following reason: ' + status
+          );
         }
       });
     } else {
@@ -115,9 +130,9 @@ function initMap() {
       var marker = new google.maps.Marker({
         position: {
           lat: latitude,
-          lng: longitude
+          lng: longitude,
         },
-        map: map
+        map: map,
       });
       unstagedMapMarkers.push(marker);
 
@@ -135,8 +150,8 @@ function grabAddress(geocoder, lat, lng, addressArr) {
     {
       location: {
         lat: lat,
-        lng: lng
-      }
+        lng: lng,
+      },
     },
     function(results, status) {
       if (status === 'OK') {
@@ -153,3 +168,6 @@ function grabAddress(geocoder, lat, lng, addressArr) {
     }
   );
 }
+
+//function to add the markers onto the map
+function addPoints(map, points) {}
