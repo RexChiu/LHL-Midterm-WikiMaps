@@ -23,5 +23,17 @@
     $("#navregister").on('click', () => {
       $('#registerModal').modal('show')
     })
+    $("#login-form-btn").on('click', (ev) => {
+      ev.preventDefault();
+      var payload = {
+        username: 'Cats',
+        password: 'Cats'
+      };
+      $.post('/login', payload)
+        .then(res => {
+          console.log(res)
+        })
+    })
+
   })
 </script>

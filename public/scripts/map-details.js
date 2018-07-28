@@ -46,6 +46,7 @@ $(() => {
         unstagedMapAddresses = [];
         console.log(resp);
         console.log('Staged Markers: ' + stagedMapMarkers);
+        // generate static map image with points here
       })
       .fail(err => console.log(err.message));
   });
