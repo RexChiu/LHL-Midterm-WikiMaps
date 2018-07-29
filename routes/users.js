@@ -48,7 +48,7 @@ module.exports = knex => {
           res.send('success');
         })
         .catch(err => {
-          res.status(401).send(err);
+          res.status(204).send(err);
         });
     }
   });
