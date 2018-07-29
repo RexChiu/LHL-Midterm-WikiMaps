@@ -22,6 +22,17 @@ $(document).ready(() => {
       addPointsToHTML(points[i]);
     }
   });
+
+  //event listener for favourite map
+  $('#favourite-btn').click(function() {
+    $.ajax({
+      url: `/maps/${mapId}/fav`,
+      type: 'PUT',
+      success: function(resp) {
+        console.log(resp);
+      }
+    });
+  });
 });
 
 function initMap() {

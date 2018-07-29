@@ -106,7 +106,7 @@ module.exports = knex => {
     //find user_id
     findUserId(username)
       .then(result => {
-        data.user_id = result.id;
+        data.user_id = result;
         return insertMap(data);
       })
       .then(result => {
@@ -141,7 +141,7 @@ module.exports = knex => {
         .from('maps')
         .where('url', 'like', `%${url}%`)
         .then(result => {
-          resolve(result);
+          resolve(result[0].id);
         })
         .catch(err => {
           reject(err);
@@ -195,7 +195,7 @@ module.exports = knex => {
         .where('username', username)
         .then(result => {
           if (result.length > 0) {
-            resolve(result[0]);
+            resolve(result[0].id);
           } else {
             reject('No User Found');
           }
