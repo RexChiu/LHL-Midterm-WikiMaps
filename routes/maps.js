@@ -24,10 +24,14 @@ module.exports = knex => {
 
   //User can see a page to create a new map
   router.get('/new', (req, res) => {
-    let templateVars = {
-      API_KEY: API_KEY
-    };
-    res.render('new-map', templateVars);
+    returnTypes().then(types => {
+      console.log(types);
+      let templateVars = {
+        API_KEY: API_KEY,
+        types: types
+      };
+      res.render('new-map', templateVars);
+    });
   });
 
   //User can see the details of a map using a unique link
@@ -179,6 +183,16 @@ module.exports = knex => {
           reject(err);
         });
     });
+  }
+
+  //function to get map types
+  function returnTypes() {
+    return knex
+      .select()
+      .from('types')
+      .then(result => {
+        return result;
+      });
   }
 
   //End of routes
