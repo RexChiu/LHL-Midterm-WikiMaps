@@ -41,8 +41,8 @@ module.exports = knex => {
   //DELETE /maps/:id/points/:pointId
   router.delete('/', (req, res) => {
     if (req.session.userId) {
-      let mapId = req.originalUrl.split('/maps/')[1].split('/points')[0];
-      removePoint(req.body.url);
+      console.log(req.body);
+      removePoint(req.body.url, req.body.lat, req.body.lng, req.body.mapUrl);
       res.send(200);
     } else {
       res.status(401).send('Not Authorized');
@@ -152,10 +152,29 @@ module.exports = knex => {
       });
   }
 
-  function removePoint(url) {
+  function removePoint(url, lat, lng, mapUrl) {
     return knex('points')
-      .where('url', url)
+      .where('title', url)
       .del()
+      .then(() => {
+        let locationStr = 'markers=' + lat + ',' + lng + '&';
+        console.log(locationStr + 'location STRING');
+        return knex('maps')
+          .select('img_url')
+          .where('url', 'like', `%${mapUrl}%`)
+          .then(result => {
+            console.log(result);
+            let currentMapUrl = result[0].img_url;
+            currentMapUrl = currentMapUrl.split(locationStr).join('');
+            return currentMapUrl;
+          })
+          .then(currentMapUrl => {
+            return console.log('new url =', currentMapUrl);
+          })
+          .catch(err => {
+            return Promise.reject(err);
+          });
+      })
       .then(() => {
         return Promise.resolve(url);
       })

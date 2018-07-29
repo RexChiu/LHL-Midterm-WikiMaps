@@ -165,7 +165,12 @@ function addMarkerListener(marker, infoWindow) {
       if (stagedMapMarkers[i] === this) {
         $.ajax({
           url: `/maps/${mapId}/points`,
-          data: { url: this.title },
+          data: {
+            url: this.title,
+            lat: this.position.lat(),
+            lng: this.position.lng(),
+            mapUrl: mapId
+          },
           type: 'DELETE',
           success: function() {
             stagedMapMarkers[i].setMap(null);
@@ -176,7 +181,4 @@ function addMarkerListener(marker, infoWindow) {
       }
     }
   });
-  // marker.addListener('click', function(){
-  //   ~
-  // };
 }
