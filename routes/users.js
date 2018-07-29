@@ -27,7 +27,19 @@ module.exports = knex => {
   });
 
   //user can get their favourite maps
-  router.get('/fav', (req, res) => {});
+  router.get('/fav', (req, res) => {
+    let username = req.session.username;
+    findUserId(username)
+      .then(userId => {
+        return returnFavMaps(userId);
+      })
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
 
   // Register
   router.post('/register', (req, res) => {
@@ -71,6 +83,31 @@ module.exports = knex => {
   });
 
   // KNEX USER FUNCTIONS
+
+  // return user favourite maps
+  function returnFavMaps(userId) {
+    console.log('searching');
+    return new Promise((resolve, reject) => {
+      return knex('user_fav')
+        .select()
+        .join('maps', { 'user_fav.map_id': 'maps.id' })
+        .where('user_fav.user_id', userId)
+        .then(result => {
+          console.log('found these favourite maps: ' + result);
+          if (result.length > 0) {
+            resolve(result);
+          } else {
+            console.log('No Favourites');
+            reject('no maps found');
+          }
+        })
+        .catch(err => {
+          console.log('Error: ' + err);
+          reject(err);
+        });
+    });
+  }
+
   // return user maps
   function returnUserMaps(userId) {
     return new Promise((resolve, reject) => {
