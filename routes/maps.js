@@ -50,12 +50,12 @@ module.exports = knex => {
 
   //User can favourite a map
   router.put('/:id/fav', (req, res) => {
-    if (!req.session.username) {
+    if (!req.session.id) {
       res.status(401).send('Login First!');
       return;
     }
 
-    let username = req.session.username;
+    let username = req.session.id;
     let mapUrl = req.params.id;
 
     //find map_id
@@ -76,12 +76,12 @@ module.exports = knex => {
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
-    if (!req.session.username) {
+    if (!req.session.id) {
       res.status(401).send('Login First!');
       return;
     }
 
-    let username = req.session.username;
+    let username = req.session.id;
 
     let url =
       'http://localhost:8080/maps/' +
