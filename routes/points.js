@@ -79,7 +79,7 @@ module.exports = knex => {
 
     //get the ID of the mapId, then construct the point object
     return getMapId(point.mapId).then(mapId => {
-      let data = {
+      let pointData = {
         map_id: mapId,
         title: null,
         desc: null,
@@ -95,9 +95,18 @@ module.exports = knex => {
 
       // insert point
       return knex('points')
-        .insert(data)
-        .then(result => {
-          console.log(result);
+        .insert(pointData)
+        .then(() => {
+          return getMapImg(mapId);
+        })
+        .then(img_url => {
+          console.log('we got here');
+          let newUrl = newMapImg(img_url, pointData);
+          return knex('maps')
+            .where('id', mapId)
+            .update('img_url', newUrl);
+        })
+        .then(() => {
           return Promise.resolve(url);
         })
         .catch(err => {
@@ -106,6 +115,31 @@ module.exports = knex => {
     });
   }
 
+  function getMapImg(mapId) {
+    // find map img url
+    return knex
+      .select('img_url')
+      .from('maps')
+      .where('id', mapId)
+      .then(result => {
+        return Promise.resolve(result[0].img_url);
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
+  }
+  function newMapImg(url, point) {
+    let pointText = `markers=${Number.parseFloat(point.lat).toPrecision(6)},${Number.parseFloat(point.lng).toPrecision(6)}&`;
+    let newUrl = spliceSplit(url, 47, 0, pointText);
+    console.log(newUrl);
+    return newUrl;
+  }
+  // to splice a str like an array
+  function spliceSplit(str, index, count, add) {
+    var strToArr = str.split('');
+    strToArr.splice(index, count, add);
+    return strToArr.join('');
+  }
   function getMapId(url) {
     // find map by URL
     return knex
