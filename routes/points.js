@@ -127,7 +127,7 @@ module.exports = knex => {
       });
   }
   function newMapImg(url, point) {
-    `markers=${Number.parseFloat(point.lat).toPrecision(6)},${Number.parseFloat(point.lng).toPrecision(6)}&`;
+    let pointText = `markers=${Number.parseFloat(point.lat).toPrecision(6)},${Number.parseFloat(point.lng).toPrecision(6)}&`;
     let newUrl = spliceSplit(url, 47, 0, pointText);
     return newUrl;
   }
@@ -156,16 +156,26 @@ module.exports = knex => {
       .where('url', url)
       .del()
       .then(() => {
-        let locationStr = 'markers=' + lat + ',' + lng + '&';
-        // console.log(locationStr + '        <----location STRING');
+        let locationStr = 'markers=' + Number.parseFloat(lat).toPrecision(6) + ',' + Number.parseFloat(lng).toPrecision(6) + '&';
+        console.log(locationStr + '        <----location STRING');
         return knex('maps')
           .select('img_url')
           .where('url', 'like', `%${mapUrl}%`)
           .then(result => {
             // console.log(result);
             let currentMapUrl = result[0].img_url;
+            console.log('current map url', currentMapUrl);
             let newMapUrl = currentMapUrl.split(locationStr).join('');
+            console.log('newmapurl', newMapUrl);
             return newMapUrl;
+          })
+          .then(newMapUrl => {
+            return knex('maps')
+              .where('url', 'like', `%${mapUrl}%`)
+              .update({ img_url: newMapUrl })
+              .then(() => {
+                return 'ok';
+              });
           })
           .catch(err => {
             return Promise.reject(err);
