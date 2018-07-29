@@ -84,7 +84,6 @@ function initMap() {
       marker.addListener('click', function() {
         console.log('pushed me', this);
       });
-      unstagedMapMarkers.push(marker);
 
       //grab address and sends to server
       grabAddress(geocoder, latitude, longitude, marker);
