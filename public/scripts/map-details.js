@@ -166,7 +166,7 @@ function addPointsToHTML(point) {
   <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }
-function addMarkerListener(marker) {
+function addMarkerListener(marker, infoWindow) {
   marker.addListener('rightclick', function() {
     console.log('right clicked');
     for (let i = 0; i < stagedMapMarkers.length; i++) {
@@ -184,4 +184,7 @@ function addMarkerListener(marker) {
       }
     }
   });
+  // marker.addListener('click', function(){
+  //   ~
+  // };
 }
