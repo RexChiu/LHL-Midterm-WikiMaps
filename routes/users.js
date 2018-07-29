@@ -12,12 +12,8 @@ module.exports = knex => {
 
   router.get('/maps', (req, res) => {
     console.log("Getting User's Maps");
-    let username = req.session.username;
-
-    findUserId(username)
-      .then(userId => {
-        return returnUserMaps(userId);
-      })
+    console.log(req.session.id);
+    returnUserMaps(req.session.id)
       .then(results => {
         res.send(results);
       })
@@ -48,7 +44,10 @@ module.exports = knex => {
       console.log('validated successfully');
       registerUser(req.body) //call registerUser function passing in the req.body
         .then(result => {
-          req.session.username = username;
+          return findUserId(username);
+        })
+        .then(userid => {
+          req.session.id = userid;
           res.send('success');
         })
         .catch(err => {
@@ -64,8 +63,10 @@ module.exports = knex => {
       console.log('running checkUser'); //log
       checkUser(req.body)
         .then(result => {
-          console.log('login success'); //log
-          req.session.username = req.body.username;
+          return findUserId(username);
+        })
+        .then(userid => {
+          req.session.id = userid;
           res.send('success');
         })
         .catch(err => {
