@@ -6,8 +6,10 @@ var map;
 $(document).ready(() => {
   var lat = $('#map').data().lat;
   var lng = $('#map').data().lng;
+  var zoom = $('#map').data().zoom;
 
   map.setCenter({ lat: lat, lng: lng });
+  map.setZoom(zoom);
 
   //grabs the map url/id
   mapId = $('.map-url')

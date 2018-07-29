@@ -6,16 +6,18 @@ $(() => {
     let name = $form.find('.name').val();
     let type = $form.find('.types').val();
     let desc = $form.find('.desc').val();
-    let public = 'true'; //hard coded... was $private.find('.isPrivate').val();
+    let public = !$form.find('.isPrivate').is(':checked');
     let lat = map.getCenter().lat();
     let lng = map.getCenter().lng();
+    let zoom = map.getZoom();
     const data = {
       name,
       type,
       desc,
       public,
       lat,
-      lng
+      lng,
+      zoom
     };
 
     $.post('/maps', data)
