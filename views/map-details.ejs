@@ -34,12 +34,12 @@
   <a href="<%= map.url %>" class="map-url">
     <%= map.name %>
   </a>
-  <button type="share">Share</button>
-  <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
+
+
   <button id="favourite-btn" type="button">Fav</button>
-  <div>
-    <%= map.rating %>
-  </div>
+  <input id="point-title" type='text' placeholder="Point Title"></input>
+  <textarea id="point-desc" placeholder="Point Description"></textarea>
+  <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"></div>
 
   <textarea><%= map.desc %></textarea>
 
@@ -52,7 +52,6 @@
     <input class="name-address-search-bar" type='text' name='name-address-search-bar'></input>
     <button class="search-btn" type="button">Search</button>
   </form>
-  <button class="send-points-btn" type="button">Save</button>
   <div class="points-container"></div>
 
   <!-- BOOTSTRAP CDN 4.1.3 JS and required jquery and popper libs -->
