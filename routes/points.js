@@ -1,9 +1,10 @@
 'use strict';
 //routes going to /maps/:id/points
-
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const randomString = require('random-string');
+const API_KEY = process.env.API_KEY;
 
 module.exports = knex => {
   //User can see many points on a map
@@ -82,7 +83,9 @@ module.exports = knex => {
         map_id: mapId,
         title: null,
         desc: null,
-        img_url: null,
+        img_url: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${point.lat},${point.lng}
+        &fov=180&heading=180&pitch=10
+        &key=${API_KEY}`,
         rating: null,
         lat: point.lat,
         lng: point.lng,
