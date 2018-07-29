@@ -1,8 +1,14 @@
 // for future seeding
 
 exports.seed = function(knex, Promise) {
-  return knex('maps')
+  return knex('points')
     .del()
+    .then(() => {
+      return knex('user_fav').del();
+    })
+    .then(() => {
+      return knex('maps').del();
+    })
     .then(() => {
       return knex('users').del();
     })
@@ -10,9 +16,20 @@ exports.seed = function(knex, Promise) {
       return knex('types').del();
     })
     .then(() => {
-      return Promise.all([knex('types').insert({ id: 1, name: '1' }), knex('types').insert({ id: 2, name: '2' })]);
+      return Promise.all([
+        knex('types').insertMany(
+          { name: 'Cats' },
+          { name: 'Restaurants' },
+          { name: 'Schools' },
+          { name: 'Attractions' },
+          { name: 'Malls' },
+          { name: 'Hiding Spots' },
+          { name: 'Cat Shelters' },
+          { name: 'Buried Treasure' }
+        )
+      ]);
     })
     .then(() => {
-      return knex('users').insert({ name: 'cats', username: 'Cats', email: 'Cats@Cats', password: 'Cats' });
+      return knex('users').insert({ name: 'Cats', username: 'Cats', email: 'Cats@Cats', password: 'Cats' });
     });
 };
