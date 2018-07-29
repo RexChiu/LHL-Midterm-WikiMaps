@@ -65,7 +65,7 @@ function initMap() {
             position: return_location
           });
           //grabs address, and sends to server
-          grabAddress(geocoder, return_location.lat(), return_location.lng(), marker);
+          grabAddress(geocoder, return_location.lat(), return_location.lng(), marker, map);
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }

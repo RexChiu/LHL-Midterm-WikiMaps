@@ -32,7 +32,7 @@ var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 }, //hard coded center toronto
-    zoom: 8,
+    zoom: 9,
     disableDefaultUI: true
   });
 }
