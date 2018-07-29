@@ -4,7 +4,7 @@ var unstagedMapAddresses = [];
 
 //arrays to store all of the existing markers on the map
 var stagedMapMarkers = [];
-
+var mapId = null;
 var map;
 
 $(document).ready(() => {
@@ -14,7 +14,7 @@ $(document).ready(() => {
   map.setCenter({ lat: lat, lng: lng });
 
   //grabs the map url/id
-  var mapId = $('.map-url')
+  mapId = $('.map-url')
     .attr('href')
     .split('/maps/')[1];
 
@@ -76,7 +76,6 @@ function initMap() {
     zoom: 8,
     disableDefaultUI: true
   });
-
   //add listener for submit button for address bar
   $('.search-btn').on('click', ev => {
     var byNameAddress = $('.by-name-address-selector:checked').val();
@@ -96,6 +95,9 @@ function initMap() {
           var marker = new google.maps.Marker({
             map: map,
             position: return_location
+          });
+          marker.addListener('click', function() {
+            console.log('pushed me', this);
           });
           //adds marker onto the array
           unstagedMapMarkers.push(marker);
@@ -128,6 +130,9 @@ function initMap() {
           lng: longitude
         },
         map: map
+      });
+      marker.addListener('click', function() {
+        console.log('pushed me', this);
       });
       unstagedMapMarkers.push(marker);
 
@@ -164,7 +169,7 @@ function grabAddress(geocoder, lat, lng, addressArr) {
   );
 }
 
-//function to add the markers onto the map
+//function to add the markers onto the map on load
 function addPointsToMap(map, point) {
   //add new marker onto map
   var marker = new google.maps.Marker({
@@ -172,7 +177,25 @@ function addPointsToMap(map, point) {
       lat: point.lat,
       lng: point.lng
     },
-    map: map
+    map: map,
+    title: point.url
+  });
+  marker.addListener('rightclick', function() {
+    console.log('right clicked');
+    for (let i = 0; i < stagedMapMarkers.length; i++) {
+      if (stagedMapMarkers[i] === this) {
+        $.ajax({
+          url: `/maps/${mapId}/points`,
+          data: { url: this.title },
+          type: 'DELETE',
+          success: function() {
+            stagedMapMarkers[i].setMap(null);
+            stagedMapMarkers.splice(i, 1);
+            console.log(stagedMapMarkers);
+          }
+        });
+      }
+    }
   });
   stagedMapMarkers.push(marker);
 }
@@ -184,4 +207,3 @@ function addPointsToHTML(point) {
   <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }
-//function ro remove points from the map
