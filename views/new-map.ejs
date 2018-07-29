@@ -35,8 +35,12 @@
     <input type="text" name="name" class='name'>
     <br> Type:
     <select name="types" class='types'>
-      <option value="1">Type 1</option>
-      <option value="2">Type 2</option>
+      <% for (let type of types) { %>
+        <option value="<%= type.id %>">
+          <%= type.name %>
+        </option>
+        <% } %>
+          <!-- <option value="9">Type 2</option> -->
     </select>
     <br> Description:
     <input type="text" name="desc" class='desc'>
