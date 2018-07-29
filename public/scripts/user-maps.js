@@ -6,9 +6,9 @@ $(() => {
       var mapId = map.url.split('/maps/')[1];
       var html = `
   <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
-  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image"></div>
+  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image" class="img-thumbnail"></div>
   <div class="map_desc">
-    <textarea rows="4" cols="50">
+    <textarea rows="2" cols="40">
     ${map.desc}
     </textarea>
   </div>

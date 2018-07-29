@@ -8,28 +8,30 @@ $(() => {
       //grab the points
       $.get(`/maps/${mapId}/points`).done(points => {
         html = `
-  <div class="mapTitle text-center"><a href="${map.url}">${map.name}</a></div>
-  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image" class="rounded mx-auto d-block">
-  <div class="col">
-    <div class="map_desc col order-first text-center">
-      <textarea rows="4" cols="50">
-      ${map.desc}
-      </textarea>
+  <div class="card">
+      <div class="map"><img class="card-img-top" src="${map.img_url}" alt="Google Map Static Image"></div>
+    <div class="card-body">
+      <div class="card-title mapTitle"><a href="${map.url}"><h5>${map.name}</h5></a></div>
+      <div class="map_desc card-text">
+        <p>${map.desc}</p>  
+      </div>
+      <div class="card-footer">  
+        <div class="rating">${map.rating}</div>    
+        <div class="points">points</div>`;
+        //COMMENTED OUT POINT DETAILS WHILE STYLING.
+        // for (var i = 0; i < points.length; i++) {
+        //   html += `<div><ul>
+        //   <li>Title: ${points[i].title}</li>
+        //   <li>Desc: ${points[i].desc}</li>
+        //   <li>Rating: ${points[i].rating}</li>
+        //   <li>Address: ${points[i].addr}</li>
+        //   <li>URL: ${points[i].url}</li>
+        //   </ul></div>`;
+        // }
+        html += `
+  </div>
     </div>
-    <div class="rating text-center">${map.rating}
-    </div>
-    <div class="col order-last text-center">points</div>
-  `;
-        for (var i = 0; i < points.length; i++) {
-          html += `<div><ul>
-          <li>Title: ${points[i].title}</li>
-          <li>Desc: ${points[i].desc}</li>
-          <li>Rating: ${points[i].rating}</li>
-          <li>Address: ${points[i].addr}</li>
-          <li>URL: ${points[i].url}</li>
-          </ul><div>`;
-        }
-        html += `</div>`;
+      </div>`;
         $('.mapContainer').append(html);
       });
     }
