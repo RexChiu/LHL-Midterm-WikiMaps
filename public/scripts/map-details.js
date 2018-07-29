@@ -142,7 +142,7 @@ function addPointsToMap(map, point) {
     '<div id="content">' +
     '<div id="siteNotice">' +
     '</div>' +
-    `<h1 id="firstHeading" class="firstHeading">${point.title}</h1>` +
+    `<h2 id="firstHeading" class="firstHeading">${point.title}</h2>` +
     '<div id="bodyContent">' +
     `<p>${point.desc}</p>` +
     `<p><img src="${point.img_url}" width=200 height=200></img></p>` +
