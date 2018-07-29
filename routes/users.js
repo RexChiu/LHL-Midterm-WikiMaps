@@ -60,7 +60,7 @@ module.exports = knex => {
       console.log('running checkUser'); //log
       checkUser(req.body)
         .then(result => {
-          return findUserId(username);
+          return findUserId(req.body.username);
         })
         .then(userid => {
           req.session.userId = userid;

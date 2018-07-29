@@ -55,17 +55,15 @@ module.exports = knex => {
       return;
     }
 
-    let username = req.session.userId;
+    let userId = req.session.userId;
     let mapUrl = req.params.id;
 
     //find map_id
     getMapId(mapUrl)
       .then(mapId => {
-        return findUserId(username).then(userId => {
-          return favouriteMap(mapId, userId).then(result => {
-            console.log('Successfully Added Favourites');
-            res.send('Added');
-          });
+        return favouriteMap(mapId, userId).then(result => {
+          console.log('Successfully Added Favourites');
+          res.send('Added');
         });
       })
       .catch(err => {
@@ -81,7 +79,7 @@ module.exports = knex => {
       return;
     }
 
-    let username = req.session.userId;
+    let userId = req.session.userId;
 
     let url =
       'http://localhost:8080/maps/' +
@@ -103,12 +101,8 @@ module.exports = knex => {
       img_url: `https://maps.googleapis.com/maps/api/staticmap?center=${req.body.lat},${req.body.lng}&zoom=8&size=300x300&maptype=roadmap&key=${API_KEY}`
     };
 
-    //find user_id
-    findUserId(username)
-      .then(result => {
-        data.user_id = result;
-        return insertMap(data);
-      })
+    data.user_id = userId;
+    insertMap(data)
       .then(result => {
         res.send(url);
       })
@@ -180,25 +174,6 @@ module.exports = knex => {
         .where({ public: 'true' })
         .then(result => {
           resolve(result);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
-  }
-
-  function findUserId(username) {
-    return new Promise((resolve, reject) => {
-      knex
-        .select('id')
-        .from('users')
-        .where('username', username)
-        .then(result => {
-          if (result.length > 0) {
-            resolve(result[0].id);
-          } else {
-            reject('No User Found');
-          }
         })
         .catch(err => {
           reject(err);
