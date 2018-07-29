@@ -1,18 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-secondary bg-secondary ">
-  <div class='d-flex align-items-center'>
-    <a href="/" class="btn btn-primary navbar-btn">Home</a>
-    <a href="/maps/new" class="btn btn-primary navbar-btn">New Map</a>
-    <a href="/profile" class="btn btn-primary navbar-btn">Profile</a>
-    <!-- jquery post - hrefs in for placeholder.-->
-    <button id="logout-btn" class="btn btn-primary navbar-btn">Logout</button>
-    <!-- Button trigger modal -->
-    <button type="button " id="navlogin" class="btn btn-primary navbar-btn " data-toggle="modal " data-target="#loginModal ">
-      Login
-    </button>
-    <!-- Button trigger modal -->
-    <button type="button " id="navregister" class="btn btn-primary navbar-btn " data-toggle="modal " data-target="#registerModal ">
-      Register
-    </button>
+<nav class="navbar navbar-expand-lg navbar-secondary bg-secondary">
+  <div class='container-fluid'>
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        <a class="navbar-brand" href="http://localhost:8080">WikiMaps</a>
+      </li>
+      <li>
+        <a href="/" class="btn btn-primary">Home</a>
+      </li>
+      <li>
+        <a href="/maps/new" class="btn btn-primary">New Map</a>
+      </li>
+      <li>
+        <a href="/profile" class="btn btn-primary">Profile</a>
+      </li>
+
+    </ul>
+
+    <!-- Buttons trigger modal -->
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <button id="logout-btn" class="btn btn-primary">Logout</button>
+      </li>
+      <li>
+        <button type="button " id="navlogin" class="btn btn-primary">
+          Login
+        </button>
+      </li>
+      <li>
+        <button type="button " id="navregister" class="btn btn-primary">
+          Register
+        </button>
+      </li>
   </div>
 </nav>
 <script src='/scripts/app.js'></script>

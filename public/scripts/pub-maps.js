@@ -19,16 +19,17 @@ $(() => {
     <div class="rating text-center">${map.rating}
     </div>
     <div class="col order-last text-center">points</div>
-  </div></div>`;
+  `;
         for (var i = 0; i < points.length; i++) {
-          html += `<ul>
+          html += `<div><ul>
           <li>Title: ${points[i].title}</li>
           <li>Desc: ${points[i].desc}</li>
           <li>Rating: ${points[i].rating}</li>
           <li>Address: ${points[i].addr}</li>
           <li>URL: ${points[i].url}</li>
-          </ul>`;
+          </ul><div>`;
         }
+        html += `</div>`;
         $('.mapContainer').append(html);
       });
     }
