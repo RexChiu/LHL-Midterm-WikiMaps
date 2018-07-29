@@ -48,6 +48,31 @@ module.exports = knex => {
       });
   });
 
+  //User can favourite a map
+  router.put('/:id/fav', (req, res) => {
+    if (!req.session.username) {
+      res.status(401).send('Login First!');
+      return;
+    }
+
+    let username = req.session.username;
+    let mapUrl = req.params.id;
+
+    //find map_id
+    getMapId(mapUrl)
+      .then(mapId => {
+        return findUserId(username).then(userId => {
+          return favouriteMap(mapId, userId).then(result => {
+            console.log('Successfully Added Favourites');
+            res.send('Added');
+          });
+        });
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
@@ -81,7 +106,7 @@ module.exports = knex => {
     //find user_id
     findUserId(username)
       .then(result => {
-        data.user_id = result.id;
+        data.user_id = result;
         return insertMap(data);
       })
       .then(result => {
@@ -105,6 +130,31 @@ module.exports = knex => {
         .catch(err => {
           reject(err);
         });
+    });
+  }
+
+  function getMapId(url) {
+    return new Promise((resolve, reject) => {
+      // find map by URL
+      return knex
+        .select('id')
+        .from('maps')
+        .where('url', 'like', `%${url}%`)
+        .then(result => {
+          resolve(result[0].id);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  function favouriteMap(mapId, userId) {
+    return new Promise((resolve, reject) => {
+      return knex('user_fav')
+        .insert({ map_id: mapId, user_id: userId })
+        .then(() => resolve('Successfully Added'))
+        .catch(err => reject(err));
     });
   }
 
@@ -145,7 +195,7 @@ module.exports = knex => {
         .where('username', username)
         .then(result => {
           if (result.length > 0) {
-            resolve(result[0]);
+            resolve(result[0].id);
           } else {
             reject('No User Found');
           }

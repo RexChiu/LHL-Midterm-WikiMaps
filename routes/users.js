@@ -25,6 +25,10 @@ module.exports = knex => {
         res.status(500).send(err);
       });
   });
+
+  //user can get their favourite maps
+  router.get('/fav', (req, res) => {});
+
   // Register
   router.post('/register', (req, res) => {
     const { name, username, email, password, password_confirm } = req.body;
