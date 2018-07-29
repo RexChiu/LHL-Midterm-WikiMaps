@@ -12,8 +12,8 @@ module.exports = knex => {
 
   router.get('/maps', (req, res) => {
     console.log("Getting User's Maps");
-    console.log(req.session.id);
-    returnUserMaps(req.session.id)
+    console.log(req.session.userId);
+    returnUserMaps(req.session.userId)
       .then(results => {
         res.send(results);
       })
@@ -24,11 +24,8 @@ module.exports = knex => {
 
   //user can get their favourite maps
   router.get('/fav', (req, res) => {
-    let username = req.session.username;
-    findUserId(username)
-      .then(userId => {
-        return returnFavMaps(userId);
-      })
+    let userId = req.session.userId;
+    returnFavMaps(userId)
       .then(result => {
         res.send(result);
       })
@@ -47,7 +44,7 @@ module.exports = knex => {
           return findUserId(username);
         })
         .then(userid => {
-          req.session.id = userid;
+          req.session.userId = userid;
           res.send('success');
         })
         .catch(err => {
@@ -66,7 +63,7 @@ module.exports = knex => {
           return findUserId(username);
         })
         .then(userid => {
-          req.session.id = userid;
+          req.session.userId = userid;
           res.send('success');
         })
         .catch(err => {
