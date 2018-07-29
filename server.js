@@ -59,11 +59,15 @@ app.use('/users', usersRoutes(knex));
 
 // Home page
 app.get('/', (req, res) => {
-  res.render('index');
+  let templateVars = {
+    cookie: req.session.userId
+  };
+  res.render('index', templateVars);
 });
 // Profile page
 app.get('/profile', (req, res) => {
   let templateVars = {
+    cookie: req.session.userId,
     user: 1 //hardcoding user for timebeing.
   };
   res.render('profile', templateVars);
