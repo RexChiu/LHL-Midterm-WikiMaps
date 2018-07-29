@@ -38,9 +38,11 @@ module.exports = knex => {
   //GET /maps/:id
   router.get('/:id', (req, res) => {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log('Full URL: ', fullUrl);
 
     getMapDetails(fullUrl)
       .then(result => {
+        console.log('Result: ', result);
         let templateVars = {
           API_KEY: API_KEY,
           map: result[0]
@@ -108,7 +110,7 @@ module.exports = knex => {
     data.user_id = userId;
     insertMap(data)
       .then(result => {
-        res.send(url);
+        res.send(data);
       })
       .catch(err => {
         res.status(500).send(err);

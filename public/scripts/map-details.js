@@ -114,8 +114,8 @@ function grabAddress(geocoder, lat, lng, map) {
             title: $('#point-title').val(),
             desc: $('#point-desc').val(),
             mapId: mapId,
-            lat: lat,
-            lng: lng,
+            lat: Number.parseFloat(lat).toPrecision(6),
+            lng: Number.parseFloat(lng).toPrecision(6),
             addr: results[0].formatted_address
           };
 
@@ -123,8 +123,7 @@ function grabAddress(geocoder, lat, lng, map) {
             .done(resp => {
               //successful post to server
               //add new marker onto map
-              payload.url = resp;
-              addPointsToMap(map, payload);
+              addPointsToMap(map, resp);
             })
             .fail(err => console.log(err.message));
         }
@@ -137,16 +136,35 @@ function grabAddress(geocoder, lat, lng, map) {
 
 //function to add the markers onto the map on load
 function addPointsToMap(map, point) {
+  var contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    '</div>' +
+    `<h1 id="firstHeading" class="firstHeading">${point.title}</h1>` +
+    '<div id="bodyContent">' +
+    `<p>${point.desc}</p>` +
+    `<p><img src="${point.img_url}" width=200 height=200></img></p>` +
+    '</div>' +
+    '</div>';
+
+  //creates a infoWindow with the above HTML
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+  console.log('lat: ', point.lat);
+  console.log('lng: ', point.lng);
+
   //add new marker onto map
   var marker = new google.maps.Marker({
     position: {
-      lat: point.lat,
-      lng: point.lng
+      lat: Number(point.lat),
+      lng: Number(point.lng)
     },
     map: map,
     title: point.url
   });
-  addMarkerListener(marker);
+  addMarkerListener(marker, infowindow);
   stagedMapMarkers.push(marker);
 }
 
@@ -157,7 +175,9 @@ function addPointsToHTML(point) {
   <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }
-function addMarkerListener(marker, infoWindow) {
+
+//adds event listeners to each marker
+function addMarkerListener(marker, infowindow) {
   marker.addListener('rightclick', function() {
     console.log('right clicked');
     console.log(`this.title=${this.title} || this=${this} || $this=${$(this)} $this.title=${$(this).title}`);
@@ -180,5 +200,8 @@ function addMarkerListener(marker, infoWindow) {
         });
       }
     }
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
   });
 }

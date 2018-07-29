@@ -81,9 +81,7 @@ module.exports = knex => {
         map_id: mapId,
         title: point.title,
         desc: point.desc,
-        img_url: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${point.lat},${point.lng}
-        &fov=180&heading=180&pitch=10
-        &key=${API_KEY}`,
+        img_url: `https://maps.googleapis.com/maps/api/streetview?size=200x200&location=${point.lat},${point.lng}&fov=180&heading=180&pitch=10&key=${API_KEY}`,
         rating: null,
         lat: point.lat,
         lng: point.lng,
@@ -105,7 +103,7 @@ module.exports = knex => {
             .update('img_url', newUrl);
         })
         .then(() => {
-          return Promise.resolve(url);
+          return Promise.resolve(pointData);
         })
         .catch(err => {
           return Promise.reject(err);

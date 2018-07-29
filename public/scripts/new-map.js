@@ -20,8 +20,7 @@ $(() => {
 
     $.post('/maps', data)
       .done(resp => {
-        console.log(resp);
-        window.location.href = resp;
+        window.location.href = resp.url;
       })
       .fail(err => console.log(err.message));
   });
