@@ -5,15 +5,20 @@
 
 const express = require('express');
 const router = express.Router();
+const cookieSession = require('cookie-session');
 
 module.exports = knex => {
   //User can see their profile that shows favourite maps, maps contributed to
 
-  router.get('/:id', (req, res) => {
-    console.log(`calling returnUserMaps`);
-    returnUserMaps(req.params.id)
+  router.get('/maps', (req, res) => {
+    console.log("Getting User's Maps");
+    let username = req.session.username;
+
+    findUserId(username)
+      .then(userId => {
+        return returnUserMaps(userId);
+      })
       .then(results => {
-        console.log('returning results:', results);
         res.send(results);
       })
       .catch(err => {
@@ -57,21 +62,24 @@ module.exports = knex => {
 
   // Logout
   router.post('/logout', (req, res) => {
-    console.log('logout route');
     req.session = null;
     res.redirect('../');
   });
 
   // KNEX USER FUNCTIONS
   // return user maps
-  function returnUserMaps(id) {
+  function returnUserMaps(userId) {
     return new Promise((resolve, reject) => {
-      knex
+      return knex
         .select()
         .from('maps')
-        .where('user_id', id)
+        .where('user_id', userId)
         .then(result => {
-          resolve(result);
+          if (result.length > 0) {
+            resolve(result);
+          } else {
+            reject('no maps found');
+          }
         })
         .catch(err => {
           reject(err);
@@ -110,5 +118,26 @@ module.exports = knex => {
         });
     });
   }
+
+  function findUserId(username) {
+    return new Promise((resolve, reject) => {
+      knex
+        .select('id')
+        .from('users')
+        .where('username', username)
+        .then(result => {
+          if (result.length > 0) {
+            resolve(result[0].id);
+          } else {
+            reject('No User Found');
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  //End of routes
   return router;
 };

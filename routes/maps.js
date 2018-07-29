@@ -51,6 +51,13 @@ module.exports = knex => {
   //User can create a map with a map type - and a static map image
   // POST /maps
   router.post('/', (req, res) => {
+    if (!req.session.username) {
+      res.status(401).send('Login First!');
+      return;
+    }
+
+    let username = req.session.username;
+
     let url =
       'http://localhost:8080/maps/' +
       randomString({
@@ -72,12 +79,9 @@ module.exports = knex => {
     };
 
     //find user_id
-    knex
-      .select('id')
-      .from('users')
-      .where('username', 'Cats')
+    findUserId(username)
       .then(result => {
-        data.user_id = result[0].id;
+        data.user_id = result.id;
         return insertMap(data);
       })
       .then(result => {
@@ -132,6 +136,26 @@ module.exports = knex => {
         });
     });
   }
+
+  function findUserId(username) {
+    return new Promise((resolve, reject) => {
+      knex
+        .select('id')
+        .from('users')
+        .where('username', username)
+        .then(result => {
+          if (result.length > 0) {
+            resolve(result[0]);
+          } else {
+            reject('No User Found');
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   //End of routes
   return router;
 };

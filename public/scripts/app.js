@@ -35,8 +35,8 @@ $(() => {
   // LOGOUT BUTTON EVENT LISTENER
   $('#logout-btn').on('click', ev => {
     ev.preventDefault();
-    $.post('/users/logout', 'logout').then(res => {
-      console.log(res);
+    $.post('/users/logout').then(res => {
+      window.location.href = 'http://localhost:8080/';
     });
   });
 });
