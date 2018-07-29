@@ -8,16 +8,18 @@ $(() => {
       //grab the points
       $.get(`/maps/${mapId}/points`).done(points => {
         html = `
-  <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
-  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image"></div>
-  <div class="map_desc">
-    <textarea rows="4" cols="50">
-    ${map.desc}
-    </textarea>
-  </div>
-  <div class="rating">${map.rating}
-  </div>
-  <div>points</div>`;
+  <div class="mapTitle text-center"><a href="${map.url}">${map.name}</a></div>
+  <div class="map"><img src="${map.img_url}" alt="Google Map Static Image" class="rounded mx-auto d-block">
+  <div class="col">
+    <div class="map_desc col order-first text-center">
+      <textarea rows="4" cols="50">
+      ${map.desc}
+      </textarea>
+    </div>
+    <div class="rating text-center">${map.rating}
+    </div>
+    <div class="col order-last text-center">points</div>
+  </div></div>`;
         for (var i = 0; i < points.length; i++) {
           html += `<ul>
           <li>Title: ${points[i].title}</li>
