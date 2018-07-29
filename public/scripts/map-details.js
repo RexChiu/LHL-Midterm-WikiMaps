@@ -1,6 +1,6 @@
 //arrays to store all of the existing markers on the map
 var stagedMapMarkers = [];
-
+var mapId = null;
 var map;
 
 $(document).ready(() => {
@@ -10,7 +10,7 @@ $(document).ready(() => {
   map.setCenter({ lat: lat, lng: lng });
 
   //grabs the map url/id
-  var mapId = $('.map-url')
+  mapId = $('.map-url')
     .attr('href')
     .split('/maps/')[1];
 
@@ -31,7 +31,6 @@ function initMap() {
     zoom: 8,
     disableDefaultUI: true
   });
-
   //add listener for submit button for address bar
   $('.search-btn').on('click', ev => {
     var byNameAddress = $('.by-name-address-selector:checked').val();
@@ -82,6 +81,10 @@ function initMap() {
         },
         map: map
       });
+      marker.addListener('click', function() {
+        console.log('pushed me', this);
+      });
+      unstagedMapMarkers.push(marker);
 
       //grab address and sends to server
       grabAddress(geocoder, latitude, longitude, marker);
@@ -133,7 +136,7 @@ function grabAddress(geocoder, lat, lng, marker) {
   );
 }
 
-//function to add the markers onto the map
+//function to add the markers onto the map on load
 function addPointsToMap(map, point) {
   //add new marker onto map
   var marker = new google.maps.Marker({
@@ -141,7 +144,25 @@ function addPointsToMap(map, point) {
       lat: point.lat,
       lng: point.lng
     },
-    map: map
+    map: map,
+    title: point.url
+  });
+  marker.addListener('rightclick', function() {
+    console.log('right clicked');
+    for (let i = 0; i < stagedMapMarkers.length; i++) {
+      if (stagedMapMarkers[i] === this) {
+        $.ajax({
+          url: `/maps/${mapId}/points`,
+          data: { url: this.title },
+          type: 'DELETE',
+          success: function() {
+            stagedMapMarkers[i].setMap(null);
+            stagedMapMarkers.splice(i, 1);
+            console.log(stagedMapMarkers);
+          }
+        });
+      }
+    }
   });
   stagedMapMarkers.push(marker);
 }

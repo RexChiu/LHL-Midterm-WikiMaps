@@ -110,20 +110,5 @@ module.exports = knex => {
         });
     });
   }
-  // function checkUserPass(reqBody) {
-  //   return new Promise((resolve, reject) => {
-  //     knex('users')
-  //       .select('username')
-  //       .where('password', reqBody.password)
-  //       .then(results => {
-  //         if (result.length > 0) {
-  //           resolve('username AND password matches a user in db');
-  //         } else {
-  //           reject('username AND/OR password does not match a user in db');
-  //         }
-  //       });
-  //   });
-  // }
-  //End of routes
   return router;
 };

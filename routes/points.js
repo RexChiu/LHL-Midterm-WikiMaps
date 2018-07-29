@@ -31,6 +31,13 @@ module.exports = knex => {
         res.status(500).send(err);
       });
   });
+  //User can delete a maps points
+  //DELETE /maps/:id/points/:pointId
+  router.delete('/', (req, res) => {
+    let mapId = req.originalUrl.split('/maps/')[1].split('/points')[0];
+    removePoint(req.body.url);
+    res.send(200);
+  });
 
   //Data Helper Functions
 
@@ -110,6 +117,17 @@ module.exports = knex => {
       });
   }
 
+  function removePoint(url) {
+    return knex('points')
+      .where('url', url)
+      .del()
+      .then(() => {
+        return Promise.resolve(url);
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
+  }
   //End of routes
   return router;
 };
