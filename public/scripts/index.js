@@ -15,8 +15,7 @@ $(() => {
       <div class="map_desc card-text">
         <p>${map.desc}</p>  
       </div>
-      <div class="card-footer">  
-        <div class="rating">${map.rating}</div>    
+      <div class="card-footer">   
         <div class="points">points</div>`;
         //COMMENTED OUT POINT DETAILS WHILE STYLING.
         // for (var i = 0; i < points.length; i++) {

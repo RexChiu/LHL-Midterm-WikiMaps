@@ -111,6 +111,8 @@ function grabAddress(geocoder, lat, lng, map) {
 
           //sends point to server
           var payload = {
+            title: $('#point-title').val(),
+            desc: $('#point-desc').val(),
             mapId: mapId,
             lat: lat,
             lng: lng,
@@ -121,17 +123,7 @@ function grabAddress(geocoder, lat, lng, map) {
             .done(resp => {
               //successful post to server
               //add new marker onto map
-              var marker = new google.maps.Marker({
-                position: {
-                  lat: latitude,
-                  lng: longitude
-                },
-                map: map
-              });
-
-              marker.setTitle(resp);
-              addMarkerListener(marker);
-              stagedMapMarkers.push(marker);
+              addPointsToMap(map, payload);
               console.log('response: ' + resp);
               console.log('Staged Markers: ' + stagedMapMarkers);
             })
