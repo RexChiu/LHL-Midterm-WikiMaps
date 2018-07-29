@@ -123,9 +123,8 @@ function grabAddress(geocoder, lat, lng, map) {
             .done(resp => {
               //successful post to server
               //add new marker onto map
+              payload.url = resp;
               addPointsToMap(map, payload);
-              console.log('response: ' + resp);
-              console.log('Staged Markers: ' + stagedMapMarkers);
             })
             .fail(err => console.log(err.message));
         }
@@ -161,6 +160,7 @@ function addPointsToHTML(point) {
 function addMarkerListener(marker, infoWindow) {
   marker.addListener('rightclick', function() {
     console.log('right clicked');
+    console.log(`this.title=${this.title} || this=${this} || $this=${$(this)} $this.title=${$(this).title}`);
     for (let i = 0; i < stagedMapMarkers.length; i++) {
       if (stagedMapMarkers[i] === this) {
         $.ajax({

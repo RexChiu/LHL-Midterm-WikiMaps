@@ -29,7 +29,7 @@ module.exports = knex => {
           res.send(result);
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
           res.status(500).send(err);
         });
     } else {
@@ -41,7 +41,7 @@ module.exports = knex => {
   //DELETE /maps/:id/points/:pointId
   router.delete('/', (req, res) => {
     if (req.session.userId) {
-      console.log(req.body);
+      // console.log(req.body);
       removePoint(req.body.url, req.body.lat, req.body.lng, req.body.mapUrl);
       res.send(200);
     } else {
@@ -98,7 +98,7 @@ module.exports = knex => {
           return getMapImg(mapId);
         })
         .then(img_url => {
-          console.log('we got here');
+          // console.log('we got here');
           let newUrl = newMapImg(img_url, pointData);
           return knex('maps')
             .where('id', mapId)
@@ -127,9 +127,8 @@ module.exports = knex => {
       });
   }
   function newMapImg(url, point) {
-    let pointText = `markers=${Number.parseFloat(point.lat).toPrecision(6)},${Number.parseFloat(point.lng).toPrecision(6)}&`;
+    `markers=${Number.parseFloat(point.lat).toPrecision(6)},${Number.parseFloat(point.lng).toPrecision(6)}&`;
     let newUrl = spliceSplit(url, 47, 0, pointText);
-    console.log(newUrl);
     return newUrl;
   }
   // to splice a str like an array
@@ -154,22 +153,19 @@ module.exports = knex => {
 
   function removePoint(url, lat, lng, mapUrl) {
     return knex('points')
-      .where('title', url)
+      .where('url', url)
       .del()
       .then(() => {
         let locationStr = 'markers=' + lat + ',' + lng + '&';
-        console.log(locationStr + 'location STRING');
+        // console.log(locationStr + '        <----location STRING');
         return knex('maps')
           .select('img_url')
           .where('url', 'like', `%${mapUrl}%`)
           .then(result => {
-            console.log(result);
+            // console.log(result);
             let currentMapUrl = result[0].img_url;
-            currentMapUrl = currentMapUrl.split(locationStr).join('');
-            return currentMapUrl;
-          })
-          .then(currentMapUrl => {
-            return console.log('new url =', currentMapUrl);
+            let newMapUrl = currentMapUrl.split(locationStr).join('');
+            return newMapUrl;
           })
           .catch(err => {
             return Promise.reject(err);
