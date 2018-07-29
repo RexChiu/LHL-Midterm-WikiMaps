@@ -28,7 +28,8 @@ module.exports = knex => {
       console.log(types);
       let templateVars = {
         API_KEY: API_KEY,
-        types: types
+        types: types,
+        cookie: req.session.userId
       };
       res.render('new-map', templateVars);
     });
@@ -45,7 +46,8 @@ module.exports = knex => {
         console.log('Result: ', result);
         let templateVars = {
           API_KEY: API_KEY,
-          map: result[0]
+          map: result[0],
+          cookie: req.session.userId
         };
         res.render('map-details', templateVars);
       })
