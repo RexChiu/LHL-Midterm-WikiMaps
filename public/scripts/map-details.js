@@ -27,46 +27,46 @@ $(document).ready(() => {
     }
   });
 
-  //listener for button for sending points
-  $('.send-points-btn').on('click', ev => {
-    ev.preventDefault(); //prevent default event from occuring
-    ev.stopImmediatePropagation();
+  //   //listener for button for sending points
+  //   $('.send-points-btn').on('click', ev => {
+  //     ev.preventDefault(); //prevent default event from occuring
+  //     ev.stopImmediatePropagation();
 
-    //does not proceed further if either of arrays are empty
-    if (unstagedMapMarkers.length == 0 || unstagedMapAddresses.length == 0) {
-      return;
-    }
-    var markers = [];
+  //     //does not proceed further if either of arrays are empty
+  //     if (unstagedMapMarkers.length == 0 || unstagedMapAddresses.length == 0) {
+  //       return;
+  //     }
+  //     var markers = [];
 
-    //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
-    for (var i = 0; i < unstagedMapMarkers.length; i++) {
-      var markerObj = {
-        mapId: mapId,
-        lat: unstagedMapMarkers[i].getPosition().lat(),
-        lng: unstagedMapMarkers[i].getPosition().lng(),
-        addr: unstagedMapAddresses[i]
-      };
-      markers.push(markerObj);
-    }
+  //     //loops through the unstagedMapMarkers and mapAddresess array and constructs a payload
+  //     for (var i = 0; i < unstagedMapMarkers.length; i++) {
+  //       var markerObj = {
+  //         mapId: mapId,
+  //         lat: unstagedMapMarkers[i].getPosition().lat(),
+  //         lng: unstagedMapMarkers[i].getPosition().lng(),
+  //         addr: unstagedMapAddresses[i]
+  //       };
+  //       markers.push(markerObj);
+  //     }
 
-    var payload = {
-      markers: markers
-    };
+  //     var payload = {
+  //       markers: markers
+  //     };
 
-    console.log('Sending Payload: ' + JSON.stringify(payload));
+  //     console.log('Sending Payload: ' + JSON.stringify(payload));
 
-    //sends points to server
-    $.post(`/maps/${mapId}/points`, payload)
-      .done(resp => {
-        //successful post to server, clear out unstaged arrays
-        stagedMapMarkers = stagedMapMarkers.concat(unstagedMapMarkers);
-        unstagedMapMarkers = [];
-        unstagedMapAddresses = [];
-        console.log(resp);
-        console.log('Staged Markers: ' + stagedMapMarkers);
-      })
-      .fail(err => console.log(err.message));
-  });
+  //     //sends points to server
+  //     $.post(`/maps/${mapId}/points`, payload)
+  //       .done(resp => {
+  //         //successful post to server, clear out unstaged arrays
+  //         stagedMapMarkers = stagedMapMarkers.concat(unstagedMapMarkers);
+  //         unstagedMapMarkers = [];
+  //         unstagedMapAddresses = [];
+  //         console.log(resp);
+  //         console.log('Staged Markers: ' + stagedMapMarkers);
+  //       })
+  //       .fail(err => console.log(err.message));
+  //   });
 });
 
 function initMap() {
@@ -100,7 +100,7 @@ function initMap() {
           //adds marker onto the array
           unstagedMapMarkers.push(marker);
           //grabs and adds address onto the unstagedMapAddresses array
-          grabAddress(geocoder, return_location.lat(), return_location.lng(), unstagedMapAddresses);
+          grabAddress(geocoder, return_location.lat(), return_location.lng(), marker);
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }
@@ -132,14 +132,14 @@ function initMap() {
       unstagedMapMarkers.push(marker);
 
       //grab address
-      grabAddress(geocoder, latitude, longitude, unstagedMapAddresses);
+      grabAddress(geocoder, latitude, longitude, marker);
     }
   });
 }
 
 //grabs the address using google API,
 //pushes it into the address array in function due to async issues
-function grabAddress(geocoder, lat, lng, addressArr) {
+function grabAddress(geocoder, lat, lng, marker) {
   //grab address using google geocoder API
   return geocoder.geocode(
     {
@@ -151,11 +151,28 @@ function grabAddress(geocoder, lat, lng, addressArr) {
     function(results, status) {
       if (status === 'OK') {
         if (results[0]) {
-          console.log('Found Address: ' + results[0].formatted_address);
-          if (addressArr) {
-            addressArr.push(results[0].formatted_address);
-          }
-          return results[0].formatted_address;
+          //grabs the map url/id
+          var mapId = $('.map-url')
+            .attr('href')
+            .split('/maps/')[1];
+
+          //sends point to server
+          var payload = {
+            mapId: mapId,
+            lat: lat,
+            lng: lng,
+            addr: results[0].formatted_address
+          };
+
+          $.post(`/maps/${mapId}/points`, payload)
+            .done(resp => {
+              //successful post to server, clear out unstaged arrays
+              marker.setTitle(resp);
+              stagedMapMarkers.push(marker);
+              console.log('response: ' + resp);
+              console.log('Staged Markers: ' + stagedMapMarkers);
+            })
+            .fail(err => console.log(err.message));
         }
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
@@ -184,4 +201,3 @@ function addPointsToHTML(point) {
   <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
   $('.points-container').append(html);
 }
-//function ro remove points from the map

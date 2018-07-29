@@ -22,7 +22,7 @@ module.exports = knex => {
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
-    insertPoints(req.body.markers)
+    insertPoint(req.body)
       .then(result => {
         res.send(result);
       })
@@ -47,16 +47,16 @@ module.exports = knex => {
       });
   }
 
-  //grabs the points, and calls insertPoint for every point
-  function insertPoints(points) {
-    console.log(points);
-    for (let elem of points) {
-      insertPoint(elem).catch(err => {
-        return err;
-      });
-    }
-    return Promise.resolve('Successfully Added');
-  }
+  // //grabs the points, and calls insertPoint for every point
+  // function insertPoints(points) {
+  //   console.log(points);
+  //   for (let elem of points) {
+  //     insertPoint(elem).catch(err => {
+  //       return err;
+  //     });
+  //   }
+  //   return Promise.resolve('Successfully Added');
+  // }
 
   //insert a point into the database, after grabbing the map_id
   function insertPoint(point) {
@@ -83,18 +83,16 @@ module.exports = knex => {
         url: url
       };
 
-      // insert map once user_id is found
-      knex('points')
+      // insert point
+      return knex('points')
         .insert(data)
         .then(result => {
           console.log(result);
-          return Promise.resolve(result);
+          return Promise.resolve(url);
         })
         .catch(err => {
           return Promise.reject(err);
         });
-
-      return Promise.resolve(point);
     });
   }
 
