@@ -79,12 +79,9 @@ module.exports = knex => {
     };
 
     //find user_id
-    knex
-      .select('id')
-      .from('users')
-      .where('username', username)
+    findUserId(username)
       .then(result => {
-        data.user_id = result[0].id;
+        data.user_id = result.id;
         return insertMap(data);
       })
       .then(result => {
@@ -139,6 +136,26 @@ module.exports = knex => {
         });
     });
   }
+
+  function findUserId(username) {
+    return new Promise((resolve, reject) => {
+      knex
+        .select('id')
+        .from('users')
+        .where('username', username)
+        .then(result => {
+          if (result.length > 0) {
+            resolve(result[0]);
+          } else {
+            reject('No User Found');
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   //End of routes
   return router;
 };

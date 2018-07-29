@@ -36,7 +36,7 @@ $(() => {
   $('#logout-btn').on('click', ev => {
     ev.preventDefault();
     $.post('/users/logout').then(res => {
-      console.log(res);
+      window.location.href = 'http://localhost:8080/';
     });
   });
 });
