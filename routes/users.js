@@ -18,7 +18,7 @@ module.exports = knex => {
         res.send(results);
       })
       .catch(err => {
-        res.status(500).send(err);
+        res.status(204).send(err);
       });
   });
 
@@ -30,7 +30,7 @@ module.exports = knex => {
         res.send(result);
       })
       .catch(err => {
-        res.status(500).send(err);
+        res.status(204).send(err);
       });
   });
 
@@ -48,7 +48,7 @@ module.exports = knex => {
           res.send('success');
         })
         .catch(err => {
-          res.status(204).send(err);
+          res.status(401).send(err);
         });
     }
   });
