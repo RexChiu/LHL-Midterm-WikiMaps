@@ -122,6 +122,7 @@ function grabAddress(geocoder, lat, lng, marker) {
             .done(resp => {
               //successful post to server
               marker.setTitle(resp);
+              addMarkerListener(marker);
               stagedMapMarkers.push(marker);
               console.log('response: ' + resp);
               console.log('Staged Markers: ' + stagedMapMarkers);
@@ -146,6 +147,18 @@ function addPointsToMap(map, point) {
     map: map,
     title: point.url
   });
+  addMarkerListener(marker);
+  stagedMapMarkers.push(marker);
+}
+
+//function to add the points onto the HTML page
+function addPointsToHTML(point) {
+  //adds point details onto the page
+  var html = `
+  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
+  $('.points-container').append(html);
+}
+function addMarkerListener(marker) {
   marker.addListener('rightclick', function() {
     console.log('right clicked');
     for (let i = 0; i < stagedMapMarkers.length; i++) {
@@ -163,13 +176,4 @@ function addPointsToMap(map, point) {
       }
     }
   });
-  stagedMapMarkers.push(marker);
-}
-
-//function to add the points onto the HTML page
-function addPointsToHTML(point) {
-  //adds point details onto the page
-  var html = `
-  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
-  $('.points-container').append(html);
 }
