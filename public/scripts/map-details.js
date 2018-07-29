@@ -84,27 +84,15 @@ function initMap() {
       var longitude = event.latLng.lng();
       console.log(latitude + ', ' + longitude);
 
-      //add new marker onto map
-      var marker = new google.maps.Marker({
-        position: {
-          lat: latitude,
-          lng: longitude
-        },
-        map: map
-      });
-      marker.addListener('click', function() {
-        console.log('pushed me', this);
-      });
-
       //grab address and sends to server
-      grabAddress(geocoder, latitude, longitude, marker);
+      grabAddress(geocoder, latitude, longitude, map);
     }
   });
 }
 
 //grabs the address using google API,
 //pushes it into the address array in function due to async issues
-function grabAddress(geocoder, lat, lng, marker) {
+function grabAddress(geocoder, lat, lng, map) {
   //grab address using google geocoder API
   return geocoder.geocode(
     {
@@ -132,6 +120,15 @@ function grabAddress(geocoder, lat, lng, marker) {
           $.post(`/maps/${mapId}/points`, payload)
             .done(resp => {
               //successful post to server
+              //add new marker onto map
+              var marker = new google.maps.Marker({
+                position: {
+                  lat: latitude,
+                  lng: longitude
+                },
+                map: map
+              });
+
               marker.setTitle(resp);
               addMarkerListener(marker);
               stagedMapMarkers.push(marker);

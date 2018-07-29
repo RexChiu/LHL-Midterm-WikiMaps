@@ -23,21 +23,29 @@ module.exports = knex => {
   //User can add a map points
   //POST /maps/:id/points
   router.post('/', (req, res) => {
-    insertPoint(req.body)
-      .then(result => {
-        res.send(result);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-      });
+    if (req.session.userId) {
+      insertPoint(req.body)
+        .then(result => {
+          res.send(result);
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send(err);
+        });
+    } else {
+      res.status(401).send('Not Authorized');
+    }
   });
   //User can delete a maps points
   //DELETE /maps/:id/points/:pointId
   router.delete('/', (req, res) => {
-    let mapId = req.originalUrl.split('/maps/')[1].split('/points')[0];
-    removePoint(req.body.url);
-    res.send(200);
+    if (req.session.userId) {
+      let mapId = req.originalUrl.split('/maps/')[1].split('/points')[0];
+      removePoint(req.body.url);
+      res.send(200);
+    } else {
+      res.status(401).send('Not Authorized');
+    }
   });
 
   //Data Helper Functions
