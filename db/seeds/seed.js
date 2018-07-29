@@ -10,14 +10,14 @@ exports.seed = function(knex, Promise) {
       return knex('maps').del();
     })
     .then(() => {
-      return knex('users').del();
-    })
-    .then(() => {
       return knex('types').del();
     })
     .then(() => {
+      return knex('users').del();
+    })
+    .then(() => {
       return Promise.all([
-        knex('types').insertMany(
+        knex('types').insert([
           { name: 'Cats' },
           { name: 'Restaurants' },
           { name: 'Schools' },
@@ -26,7 +26,7 @@ exports.seed = function(knex, Promise) {
           { name: 'Hiding Spots' },
           { name: 'Cat Shelters' },
           { name: 'Buried Treasure' }
-        )
+        ])
       ]);
     })
     .then(() => {
