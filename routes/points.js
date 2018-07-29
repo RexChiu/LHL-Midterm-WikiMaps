@@ -36,6 +36,7 @@ module.exports = knex => {
       res.status(401).send('Not Authorized');
     }
   });
+
   //User can delete a maps points
   //DELETE /maps/:id/points/:pointId
   router.delete('/', (req, res) => {
@@ -63,17 +64,6 @@ module.exports = knex => {
       });
   }
 
-  // //grabs the points, and calls insertPoint for every point
-  // function insertPoints(points) {
-  //   console.log(points);
-  //   for (let elem of points) {
-  //     insertPoint(elem).catch(err => {
-  //       return err;
-  //     });
-  //   }
-  //   return Promise.resolve('Successfully Added');
-  // }
-
   //insert a point into the database, after grabbing the map_id
   function insertPoint(point) {
     //generates unique URL for the point
@@ -89,8 +79,8 @@ module.exports = knex => {
     return getMapId(point.mapId).then(mapId => {
       let data = {
         map_id: mapId,
-        title: null,
-        desc: null,
+        title: point.title,
+        desc: point.desc,
         img_url: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${point.lat},${point.lng}
         &fov=180&heading=180&pitch=10
         &key=${API_KEY}`,

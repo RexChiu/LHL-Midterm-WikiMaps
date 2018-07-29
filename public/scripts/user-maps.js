@@ -12,11 +12,7 @@ $(() => {
     ${map.desc}
     </textarea>
   </div>
-  <div class="rating">${map.rating}
-  
-  </div>
   <div>points
-    
   </div>`;
       $('.yourMapContainer').prepend(html);
     }
@@ -34,9 +30,6 @@ $(() => {
     <textarea rows="4" cols="50">
     ${map.desc}
     </textarea>
-  </div>
-  <div class="rating">${map.rating}
-  
   </div>
   <div>points
     
