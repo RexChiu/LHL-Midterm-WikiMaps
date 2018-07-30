@@ -8,10 +8,10 @@ $(() => {
 
         //grab the points
         $.get(`/maps/${mapId}/points`).done(points => {
-          html = `<div class="row featurette">
-        <div class="col-md-7 push-md-5">
-          <h2 class="featurette-heading"><a href="${map.url}">${map.name}</a></h2>
-          <p class="lead">${map.desc}</p>
+          html = `<div class="row featurette py-2 border border-dark mt-4">
+        <div class="col-md-6 push-md-6">
+          <h2 class="featurette-heading text-center"><a href="${map.url}">${map.name}</a></h2>
+          <p class="lead text-center">${map.desc}</p>
         `;
           for (var i = 0; i < points.length; i++) {
             html += `<div><ul>
@@ -23,11 +23,13 @@ $(() => {
           </ul></div>`;
           }
           html += `</div>
-        <div class="col-md-5 pull-md-7">
-          <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" src="${map.img_url}" data-holder-rendered="true"
+        <div class="col-md-6 pull-md-6">
+          <img class="featurette-image img-fluid mx-auto border border-dark" data-src="holder.js/500x500/auto" alt="500x500" src="${
+            map.img_url
+          }" data-holder-rendered="true"
             style="width: 500px; height: 500px;">
         </div>
-      </div><hr class='featurette-divider">`;
+      <hr class='featurette-divider">`;
           $('.mapContainer').append(html);
         });
       }

@@ -3,48 +3,82 @@ $(() => {
   $.getJSON(`/users/maps`)
     .done(maps => {
       for (let map of maps) {
+        var html = ``;
         //grabs the map url/id
         var mapId = map.url.split('/maps/')[1];
-        var html = `<div class="row featurette">
-        <div class="col-md-7 push-md-5">
-          <h2 class="featurette-heading"><a href="${map.url}">${map.name}</a></h2>
-          <p class="lead">${map.desc}</p>
-        </div>
-        <div class="col-md-5 pull-md-7">
-          <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" src="${map.img_url}" data-holder-rendered="true"
+
+        //grab the points
+        $.get(`/maps/${mapId}/points`).done(points => {
+          html = `<div class="row featurette border border-dark">
+        <div class="col-md-6 push-md-6">
+          <h2 class="featurette-heading text-center"><a href="${map.url}">${map.name}</a></h2>
+          <p class="lead text-center">${map.desc}</p>
+        `;
+          for (var i = 0; i < points.length; i++) {
+            html += `<div><ul>
+          <li>Title: ${points[i].title}</li>
+          <li>Desc: ${points[i].desc}</li>
+          <li>Rating: ${points[i].rating}</li>
+          <li>Address: ${points[i].addr}</li>
+          <li>URL: ${points[i].url}</li>
+          </ul></div>`;
+          }
+          html += `</div>
+        <div class="col-md-6 pull-md-6">
+          <img class="featurette-image img-fluid mx-auto border border-dark rounded" data-src="holder.js/500x500/auto" alt="500x500" src="${
+            map.img_url
+          }" data-holder-rendered="true"
             style="width: 500px; height: 500px;">
         </div>
-      </div><hr class='featurette-divider">`;
-        $('.yourMapContainer').prepend(html);
+      <hr class='featurette-divider"/>`;
+          $('.yourMapContainer').append(html);
+        });
       }
     })
     .fail(function() {
       console.log('User has no maps');
-      $('.yourMapContainer').append('<h1>You have no created any maps yet!</h1>');
+      $('.yourMapContainer').append('<h1>You have created no maps <a href="/maps/new">Click Here To Make A Map</a></h1>');
     });
   //favourite maps
   //get the maps that belong to the user
   $.getJSON(`/users/fav`)
     .done(maps => {
       for (let map of maps) {
+        var html = ``;
         //grabs the map url/id
         var mapId = map.url.split('/maps/')[1];
-        var html = `<div class="row featurette">
-        <div class="col-md-7 push-md-5">
-          <h2 class="featurette-heading"><a href="${map.url}">${map.name}</a></h2>
-          <p class="lead">${map.desc}</p>
-        </div>
-        <div class="col-md-5 pull-md-7">
-          <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" src="${map.img_url}" data-holder-rendered="true"
-            style="width: 500px; height: 500px;">
-        </div>
-      </div><hr class='featurette-divider">`;
-        $('.favMapContainer').prepend(html);
+
+        //grab the points
+        $.get(`/maps/${mapId}/points`).done(points => {
+          html = `<div class="row featurette border border-dark">
+      <div class="col-md-6 push-md-6">
+        <h2 class="featurette-heading text-center"><a href="${map.url}">${map.name}</a></h2>
+        <p class="lead text-center">${map.desc}</p>
+      `;
+          for (var i = 0; i < points.length; i++) {
+            html += `<div><ul>
+        <li>Title: ${points[i].title}</li>
+        <li>Desc: ${points[i].desc}</li>
+        <li>Rating: ${points[i].rating}</li>
+        <li>Address: ${points[i].addr}</li>
+        <li>URL: ${points[i].url}</li>
+        </ul></div>`;
+          }
+          html += `</div>
+      <div class="col-md-6 pull-md-6">
+        <img class="featurette-image img-fluid mx-auto border border-dark" data-src="holder.js/500x500/auto" alt="500x500" src="${
+          map.img_url
+        }" data-holder-rendered="true"
+          style="width: 500px; height: 500px;">
+      </div>
+    <hr class='featurette-divider">`;
+          $('.favMapContainer').append(html);
+        });
       }
     })
     .fail(function() {
-      console.log('User has no favourites');
-      $('.favMapContainer').append('<h1>You have no favourite maps yet!</h1>');
+      console.log('User has no maps');
+      $('.favMapContainer').append('<h1>You have no favourite maps!</h1>');
     });
 
   // </div>
