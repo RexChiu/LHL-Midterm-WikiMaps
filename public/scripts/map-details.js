@@ -3,6 +3,8 @@ var stagedMapMarkers = [];
 var mapId = null;
 var map;
 
+var prev_infowindow = false;
+
 $(document).ready(() => {
   var lat = $('#map').data().lat;
   var lng = $('#map').data().lng;
@@ -102,6 +104,12 @@ function initMap() {
 
       //grab address and sends to server
       grabAddress(geocoder, latitude, longitude, map);
+    }
+  });
+
+  map.addListener('click', function() {
+    if (prev_infowindow != false) {
+      prev_infowindow.close();
     }
   });
 }
@@ -219,6 +227,10 @@ function addMarkerListener(marker, infowindow) {
     }
   });
   marker.addListener('click', function() {
+    if (prev_infowindow != false) {
+      prev_infowindow.close();
+    }
     infowindow.open(map, marker);
+    prev_infowindow = infowindow;
   });
 }
