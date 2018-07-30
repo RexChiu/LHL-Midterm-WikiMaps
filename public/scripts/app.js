@@ -61,7 +61,7 @@ $(() => {
     window.location.href = 'http://localhost:8080/';
   });
   // PROFILE BUTTON EVENT LISTENER
-  $('#logout-btn').on('click', ev => {
+  $('#profile-btn').on('click', ev => {
     ev.preventDefault();
     window.location.href = 'http://localhost:8080/profile';
   });
