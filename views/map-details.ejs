@@ -29,22 +29,47 @@
 </div>
 
 <body>
+  <div>
+    <h1>Map Details</h1>
+  </div>
+  <div class="container">
+    <div class="justify-content-center text-center h-100 display-4">
+      <a href="<%= map.url %>" class="map-url justify-content-center mx-auto h-100">
+      </a>
+      <h1>
+        <!-- put map.name back into hyperlink if broken-->
+        <%= map.name %>
+      </h1>
+    </div>
+    <div class="mx-auto h-100 container justify-content-center mx-auto">
+      Description:
+      <br>
+      <textarea class="col-12"><%= map.desc %></textarea>
+    </div>
 
-  <h1>Map Details</h1>
-  <a href="<%= map.url %>" class="map-url">
-    <%= map.name %>
-  </a>
+  </div>
 
+  <div class="container">
+    <button id="favourite-btn" type="button">Fav</button>
+  </div>
 
-  <button id="favourite-btn" type="button">Fav</button>
-  <form id="point-details-form">
-    <input id="point-title" type='text' placeholder="Point Title"></input>
-    <textarea id="point-desc" placeholder="Point Description"></textarea>
-  </form>
+  <div class="container justify-content-center mx-auto" id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>"
+    data-zoom="<%= map.zoom %>"></div>
 
-  <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>" data-zoom="<%= map.zoom %>"></div>
-
-  <textarea><%= map.desc %></textarea>
+  <div class="col-6">
+    <form id="point-details-form">
+      <div class="form-group">
+        Point Title
+        <br>
+        <input id="point-title" type='text' placeholder="Point Title"></input>
+      </div>
+      <div class="form-group">
+        Point Description
+        <br>
+        <textarea id="point-desc" placeholder="Point Description"></textarea>
+      </div>
+    </form>
+  </div>
 
   <h3>Points</h3>
   <form>
