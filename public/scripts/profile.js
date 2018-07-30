@@ -9,7 +9,7 @@ $(() => {
 
         //grab the points
         $.get(`/maps/${mapId}/points`).done(points => {
-          html = `<div class="row featurette border border-dark">
+          html = `<div class="row featurette border border-dark py-2 mt-4">
         <div class="col-md-6 push-md-6">
           <h2 class="featurette-heading text-center"><a href="${map.url}">${map.name}</a></h2>
           <p class="lead text-center">${map.desc}</p>
@@ -50,7 +50,7 @@ $(() => {
 
         //grab the points
         $.get(`/maps/${mapId}/points`).done(points => {
-          html = `<div class="row featurette border border-dark">
+          html = `<div class="row featurette border border-dark py-2 mt-4">
       <div class="col-md-6 push-md-6">
         <h2 class="featurette-heading text-center"><a href="${map.url}">${map.name}</a></h2>
         <p class="lead text-center">${map.desc}</p>
@@ -78,7 +78,7 @@ $(() => {
     })
     .fail(function() {
       console.log('User has no maps');
-      $('.favMapContainer').append('<h1>You have no favourite maps!</h1>');
+      $('.favMapContainer').append('<h5 class="text-secondary">You have no favourite maps!</h1>');
     });
 
   // </div>
