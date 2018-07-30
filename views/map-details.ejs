@@ -37,18 +37,21 @@
 
 
   <button id="favourite-btn" type="button">Fav</button>
-  <input id="point-title" type='text' placeholder="Point Title"></input>
-  <textarea id="point-desc" placeholder="Point Description"></textarea>
+  <form id="point-details-form">
+    <input id="point-title" type='text' placeholder="Point Title"></input>
+    <textarea id="point-desc" placeholder="Point Description"></textarea>
+  </form>
+
   <div id="map" data-lat="<%= map.start_lat %>" data-lng="<%= map.start_lng %>" data-zoom="<%= map.zoom %>"></div>
 
   <textarea><%= map.desc %></textarea>
 
   <h3>Points</h3>
   <form>
-    <input class="by-name-address-selector" type="radio" name="input-selector" value="by-name"> By Name
     <input class="by-map-selector" type="radio" name="input-selector" value="by-map" checked="checked"> By Map
+    <input class="by-name-address-selector" type="radio" name="input-selector" value="by-name"> By Name
   </form>
-  <form>
+  <form id="name-address-bar">
     <input class="name-address-search-bar" type='text' name='name-address-search-bar'></input>
     <button class="search-btn" type="button">Search</button>
   </form>

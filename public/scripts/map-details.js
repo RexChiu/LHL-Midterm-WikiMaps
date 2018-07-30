@@ -11,6 +11,9 @@ $(document).ready(() => {
   map.setCenter({ lat: lat, lng: lng });
   map.setZoom(zoom);
 
+  //hides the address bar
+  $('#name-address-bar').toggle();
+
   //grabs the map url/id
   mapId = $('.map-url')
     .attr('href')
@@ -34,6 +37,16 @@ $(document).ready(() => {
         console.log(resp);
       }
     });
+  });
+
+  //event listener to slide the search bar
+  $('input[name="input-selector"]').click(function() {
+    let selected = $('input[name="input-selector"]:checked').val();
+    if (selected == 'by-name') {
+      $('#name-address-bar').slideDown();
+    } else {
+      $('#name-address-bar').slideUp();
+    }
   });
 });
 
@@ -125,6 +138,7 @@ function grabAddress(geocoder, lat, lng, map) {
           $.post(`/maps/${mapId}/points`, payload)
             .done(resp => {
               //successful post to server
+              $('#point-details-form').trigger('reset');
               //add new marker onto map
               addPointsToMap(map, resp);
             })
