@@ -5,16 +5,16 @@ $(() => {
       for (let map of maps) {
         //grabs the map url/id
         var mapId = map.url.split('/maps/')[1];
-        var html = `
-        <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
-        <div class="map"><img src="${map.img_url}" alt="Google Map Static Image" class="img-thumbnail"></div>
-        <div class="map_desc">
-          <textarea rows="2" cols="40">
-          ${map.desc}
-          </textarea>
+        var html = `<div class="row featurette">
+        <div class="col-md-7 push-md-5">
+          <h2 class="featurette-heading"><a href="${map.url}">${map.name}</a></h2>
+          <p class="lead">${map.desc}</p>
         </div>
-        <div class="rating">${map.rating}</div>
-        <div>points</div>`;
+        <div class="col-md-5 pull-md-7">
+          <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" src="${map.img_url}" data-holder-rendered="true"
+            style="width: 500px; height: 500px;">
+        </div>
+      </div><hr class='featurette-divider">`;
         $('.yourMapContainer').prepend(html);
       }
     })
@@ -28,16 +28,16 @@ $(() => {
       for (let map of maps) {
         //grabs the map url/id
         var mapId = map.url.split('/maps/')[1];
-        var html = `
-        <div class="mapTitle"><a href="${map.url}">${map.name}</a></div>
-        <div class="map"><img src="${map.img_url}" alt="Google Map Static Image"></div>
-        <div class="map_desc">
-          <textarea rows="4" cols="50">
-          ${map.desc}
-          </textarea>
+        var html = `<div class="row featurette">
+        <div class="col-md-7 push-md-5">
+          <h2 class="featurette-heading"><a href="${map.url}">${map.name}</a></h2>
+          <p class="lead">${map.desc}</p>
         </div>
-        <div class="rating">${map.rating}</div>
-        <div>points</div>`;
+        <div class="col-md-5 pull-md-7">
+          <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" src="${map.img_url}" data-holder-rendered="true"
+            style="width: 500px; height: 500px;">
+        </div>
+      </div><hr class='featurette-divider">`;
         $('.favMapContainer').prepend(html);
       }
     })
