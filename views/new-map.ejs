@@ -29,26 +29,47 @@
 </div>
 
 <body>
+  <h1>Create a new map</h1>
+  <h4>Step 1: Name your map
+    <br> Step 2: Provide it with a description, a type, and set you level of zoom
+    <br> Step 3: Press create to add points!</h4>
 
-  <form class="mapDetails">
-    Name:
-    <input type="text" name="name" class='name'>
-    <br> Type:
-    <select name="types" class='types'>
-      <% for (let type of types) { %>
-        <option value="<%= type.id %>">
-          <%= type.name %>
-        </option>
-        <% } %>
-          <!-- <option value="9">Type 2</option> -->
-    </select>
-    <br> Description:
-    <input type="text" name="desc" class='desc'>
-    <input type="checkbox" class="isPrivate" name="isPrivate" value="isPrivate">
-    <label for="isPrivate">Make map private?</label>
+
+  <br>
+  <div class="form-group">
+    <form class="mapDetails">
+      <div class='form-inline py-1'>Name:
+        <input type="text" name="name" class='name form-control col-lg'>
+      </div>
+      <div class=form-inline py-1> Type:
+        <select name="types" class='types form-control col-lg'>
+          <% for (let type of types) { %>
+            <option value="<%= type.id %>">
+              <%= type.name %>
+            </option>
+            <% } %>
+              <!-- <option value="9">Type 2</option> -->
+        </select>
+      </div>
+      <div class="form-inline py-1">
+        Description:
+        <input type="text" name="desc" class='desc form-control col-lg'>
+      </div>
+      <div class='form-group mx-auto text-center'>Make map private?
+
+
+        <input type="checkbox" class="isPrivate form-control" name="isPrivate" value="isPrivate">
+      </div>
+  </div>
   </form>
-  <div id="map"></div>
-  <button class='createNewMap'>Create</button>
+  <div class='container mx-auto text-center'>
+    <button class='createNewMap'>Create</button>
+  </div>
+  </div>
+
+  <div class="border border-dark mx-auto" id="map"></div>
+
+
 
   <!-- BOOTSTRAP CDN 4.1.3 JS and required jquery and popper libs -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
