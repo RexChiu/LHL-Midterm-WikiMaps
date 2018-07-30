@@ -42,7 +42,8 @@ function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 43.653, lng: -79.383 },
     zoom: 8,
-    disableDefaultUI: true
+    disableDefaultUI: true,
+    disableDoubleClickZoom: true
   });
   //add listener for submit button for address bar
   $('.search-btn').on('click', ev => {
@@ -76,7 +77,7 @@ function initMap() {
   });
 
   //add listener for clicks within the map
-  map.addListener('click', function(event) {
+  map.addListener('dblclick', function(event) {
     var byMap = $('.by-map-selector:checked').val();
 
     //only runs code if By Map radio is checked
