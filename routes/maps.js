@@ -108,7 +108,7 @@ module.exports = knex => {
       start_lng: req.body.lng,
       img_url:
         `https://maps.googleapis.com/maps/api/staticmap?center=${req.body.lat},${req.body.lng}` +
-        `&zoom=${req.body.zoom}&size=450x450&maptype=roadmap&key=${API_KEY}`,
+        `&zoom=${req.body.zoom}&size=500x500&maptype=roadmap&key=${API_KEY}`,
       zoom: req.body.zoom
     };
 
