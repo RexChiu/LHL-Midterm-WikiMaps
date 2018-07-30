@@ -71,7 +71,7 @@
       </div>
     </form>
   </div>
-  <div class="container">
+  <div class="container text-center">
     <h3>Points</h3>
     <form>
       <input class="by-map-selector" type="radio" name="input-selector" value="by-map" checked="checked"> By Map
@@ -91,7 +91,7 @@
   <script type="text/javascript" src="/scripts/map-details.js"></script>
   <!-- API call to initialize map object -->
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap" defer></script>
-
+  <% include ./partials/footer %>
 </body>
 
 </html>
