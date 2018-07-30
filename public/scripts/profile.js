@@ -20,6 +20,7 @@ $(() => {
     })
     .fail(function() {
       console.log('User has no maps');
+      $('.yourMapContainer').append('<h1>You have no created any maps yet!</h1>');
     });
   //favourite maps
   //get the maps that belong to the user
@@ -43,6 +44,7 @@ $(() => {
     })
     .fail(function() {
       console.log('User has no favourites');
+      $('.favMapContainer').append('<h1>You have no favourite maps yet!</h1>');
     });
 
   // </div>
