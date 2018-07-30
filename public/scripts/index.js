@@ -34,7 +34,7 @@ $(() => {
         });
       }
     } else {
-      $('.mapContainer').append(`<h1 class='text-center'>You have no created any maps yet!</h1>`);
+      $('.mapContainer').append(`<h1 class='text-center'>You have not created any maps yet!</h1>`);
     }
   });
 });
