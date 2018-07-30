@@ -17,9 +17,8 @@ $(() => {
             html += `<div><ul>
           <li>Title: ${points[i].title}</li>
           <li>Desc: ${points[i].desc}</li>
-          <li>Rating: ${points[i].rating}</li>
           <li>Address: ${points[i].addr}</li>
-          <li>URL: ${points[i].url}</li>
+          <!--<li>URL: ${points[i].url}</li>-->
           </ul></div>`;
           }
           html += `</div>
