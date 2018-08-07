@@ -30,11 +30,11 @@ $(() => {
             style="width: 500px; height: 500px;">
         </div>
       <hr class='featurette-divider">`;
-          $('.mapContainer').append(html);
+          $('.mapContainer').prepend(html);
         });
       }
     } else {
-      $('.mapContainer').append(`<h1 class='text-center'>You have not created any maps yet!</h1>`);
+      $('.mapContainer').prepend(`<h1 class='text-center'>You have not created any maps yet!</h1>`);
     }
   });
 });
