@@ -196,7 +196,7 @@ function addPointsToMap(map, point) {
 function addPointsToHTML(point) {
   //adds point details onto the page
   var html = `
-  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr}, URL: ${point.url}</li>`;
+  <li>Title: ${point.title}, Desc: ${point.desc}, Address: ${point.addr} <!--, URL: ${point.url}--></li>`;
   $('.points-container').append(html);
 }
 

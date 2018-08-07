@@ -17,9 +17,8 @@ $(() => {
             html += `<div><ul>
           <li>Title: ${points[i].title}</li>
           <li>Desc: ${points[i].desc}</li>
-          <li>Rating: ${points[i].rating}</li>
           <li>Address: ${points[i].addr}</li>
-          <li>URL: ${points[i].url}</li>
+          <!--<li>URL: ${points[i].url}</li>-->
           </ul></div>`;
           }
           html += `</div>
@@ -34,7 +33,11 @@ $(() => {
         });
       }
     } else {
+<<<<<<< HEAD
       $('.mapContainer').prepend(`<h1 class='text-center'>You have not created any maps yet!</h1>`);
+=======
+      $('.mapContainer').append(`<h1 class='text-center'>There are no created maps!</h1>`);
+>>>>>>> 11166e80db4f21f8a03edbc1ad7b2637b5f76285
     }
   });
 });
