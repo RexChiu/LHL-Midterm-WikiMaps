@@ -10,6 +10,13 @@
 5. Push to the new origin: `git push -u origin master`
 6. Verify that the skeleton code now shows up in your repo on GitHub
 
+## Screenshots
+!["Screenshot of main page"](https://github.com/RexChiu/LHL-Midterm-WikiMaps/blob/master/docs/main-page.png)
+!["Screenshot of new map page"](https://github.com/RexChiu/LHL-Midterm-WikiMaps/blob/master/docs/new-map.png)
+!["Screenshot of map details page"](https://github.com/RexChiu/LHL-Midterm-WikiMaps/blob/master/docs/map-details.png)
+!["Screenshot of profile page"](https://github.com/RexChiu/LHL-Midterm-WikiMaps/blob/master/docs/user-profile.png)
+
+
 ## Getting Started
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
