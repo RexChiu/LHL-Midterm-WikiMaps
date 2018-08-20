@@ -1,14 +1,14 @@
-# Node Skeleton
+# Wiki-Maps
 
-## Project Setup
+## Project Description
 
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
+Midterm project written with Alex Zvaniga in 5 days.
+
+Wiki-Maps is a website to share points of interest between people.
+It allows for creation of new private or public maps, and allows for manual points entry by click, or via a search bar.
+
+This project is built on NodeJS Express, using normal HTML/CSS front end, and a PSQL backend using Knex.
+The APIs being used are the google maps, geolocator, static maps, and streetview APIs.
 
 ## Screenshots
 !["Screenshot of main page"](https://github.com/RexChiu/LHL-Midterm-WikiMaps/blob/master/docs/main-page.png)
